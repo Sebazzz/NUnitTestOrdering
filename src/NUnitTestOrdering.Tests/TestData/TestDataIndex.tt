@@ -1,0 +1,144 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+
+<# 
+    DirectoryInfo testDataDirectory = new DirectoryInfo(Path.GetDirectoryName(Host.TemplateFile));
+
+    string basePath = testDataDirectory.FullName + Path.DirectorySeparatorChar;
+    const string prefix = "TestData";
+#>
+
+namespace NUnitTestOrdering.Tests.TestData {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
+
+    public class TestDataDirectory {
+       public string [] Files { get; set; }
+       public string ExpectedResultFile { get;set; }
+
+       public string ReadResultsFile() {
+           Assembly thisAssembly = this.GetType().Assembly;
+           StringBuilder resultsFile = new StringBuilder();
+
+           Stream stream = thisAssembly.GetManifestResourceStream(this.ExpectedResultFile);
+           if (stream == null) {
+               throw new InvalidOperationException("Unknown manifest resource stream " + this.ExpectedResultFile);
+           }
+
+           using (StreamReader sr = new StreamReader(stream)) {
+               string line;
+               while ((line = sr.ReadLine()) != null) {
+                   if (line.Length == 0 || line[0] == '#') {
+                       // Skip "comment" line
+                       continue;
+                   }
+
+                   resultsFile.AppendLine(line);
+               }
+           }
+
+           resultsFile.Remove(resultsFile.Length - Environment.NewLine.Length, Environment.NewLine.Length);
+           return resultsFile.ToString();
+       }
+    }
+
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static class TestDataDirectories {
+
+        <# foreach (var fixtureDirectory in testDataDirectory.GetDirectories()) {#>
+
+        public static class <#=fixtureDirectory.Name#> {
+
+            <# foreach (var testDirectory in fixtureDirectory.GetDirectories()) { #>
+
+                public static TestDataDirectory <#=testDirectory.Name#>() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                            <# foreach (var file in testDirectory.GetFiles("*.cs")) { #>
+                                <# 
+                                    string fullFilePath = file.FullName;
+                                    fullFilePath = fullFilePath.Substring(basePath.Length);
+
+                                    string relFilePath = Path.Combine(prefix, fullFilePath);
+                                    string assemblyResourcePath = relFilePath.Replace(Path.DirectorySeparatorChar.ToString(), ".");
+                                #>
+
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "<#=assemblyResourcePath#>",
+
+                            <# } #>
+
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        <#
+                        { 
+                            string resultsFile = Path.Combine(testDirectory.FullName, "ExpectedTestResult.txt");
+                            string fullFilePath = resultsFile.Substring(basePath.Length);
+
+                            string relFilePath = Path.Combine(prefix, fullFilePath);
+                            string assemblyResourcePath = relFilePath.Replace(Path.DirectorySeparatorChar.ToString(), ".");
+                        #>
+
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".<#=assemblyResourcePath#>"
+
+                        <#
+                        }
+                        #>
+
+                    };
+                }
+
+            <# } #>
+
+            }
+            
+        <# } #>
+
+    }
+}
+
+namespace NUnitTestOrdering.Tests.IntegrationTests {
+    using NUnit.Framework;
+    using System.Diagnostics.CodeAnalysis;
+    using NUnitTestOrdering.Tests.TestData;
+    using Support;
+
+    <# foreach (var fixtureDirectory in testDataDirectory.GetDirectories()) {#>
+
+    [TestFixture]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public sealed class <#=fixtureDirectory#> {
+             
+            <# foreach (var testDirectory in fixtureDirectory.GetDirectories()) { #>
+
+        [Test]
+        public void <#=testDirectory.Name#>() {
+            // Given
+            var input = TestDataDirectories.<#=fixtureDirectory.Name#>.<#=testDirectory.Name#>();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+            <# } #>
+
+    }
+
+    <# } #>
+}
