@@ -13,6 +13,8 @@ namespace NUnitTestOrdering.Tests.Support {
     using System.Text;
     using System.Threading;
 
+    using MethodOrdering;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.Emit;
@@ -26,11 +28,13 @@ namespace NUnitTestOrdering.Tests.Support {
         private static readonly MetadataReference SystemReference = MetadataReference.CreateFromFile(typeof(Uri).Assembly.Location);
         private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(NamedPipeServerStream).Assembly.Location);
         private static readonly MetadataReference NUnitReference = MetadataReference.CreateFromFile(typeof(OneTimeSetUpAttribute).Assembly.Location);
+        private static readonly MetadataReference NUnitTestOrderingReference = MetadataReference.CreateFromFile(typeof(TestMethodWithoutDependency).Assembly.Location);
 
         private readonly string _namedPipeName;
         private readonly string _testAssemblyName;
         private readonly string _testAssemblyPath;
         private readonly string _testAssemblyPdbPath;
+        private readonly bool _startDebugger;
 
         private readonly TestDataDirectory _testDataDirectory;
 
@@ -49,11 +53,24 @@ namespace NUnitTestOrdering.Tests.Support {
             this._testAssemblyPdbPath = Path.ChangeExtension(this._testAssemblyPath, ".pdb");
 
             Environment.SetEnvironmentVariable("_TEST_PIPENAME", this._namedPipeName);
+
+            this._startDebugger = TestContext.CurrentContext.Test.Properties.ContainsKey("StartDebugging");
         }
 
         public void Dispose() {
-            if (File.Exists(this._testAssemblyPath)) File.Delete(this._testAssemblyPath);
-            if (File.Exists(this._testAssemblyPdbPath)) File.Delete(this._testAssemblyPdbPath);
+            TryDelete(this._testAssemblyPath);
+            TryDelete(this._testAssemblyPdbPath);
+        }
+
+        private static void TryDelete(string path) {
+            if (File.Exists(path)) {
+                try {
+                    File.Delete(path);
+                }
+                catch (Exception ex) {
+                    TestContext.Out.WriteLine("Failed to delete file {0}: {1}", path, ex);
+                }
+            }
         }
 
         [SuppressMessage("ReSharper", "AccessToDisposedClosure", Justification = "Thread ends before disposal")]
@@ -117,6 +134,7 @@ namespace NUnitTestOrdering.Tests.Support {
                     .AddReferences(SystemReference)
                     .AddReferences(SystemCoreReference)
                     .AddReferences(NUnitReference)
+                    .AddReferences(NUnitTestOrderingReference)
                     .AddSyntaxTrees(this.GetSyntaxTrees())
                     .WithOptions(
                         new CSharpCompilationOptions(
@@ -151,13 +169,18 @@ namespace NUnitTestOrdering.Tests.Support {
         }
 
         private ProcessStartInfo GetConsoleArguments() {
-            ProcessStartInfo startInfo = new ProcessStartInfo(this.GetNUnitConsoleRunnerPath()) {
+            string nunitPath = this.GetNUnitConsoleRunnerPath();
+            string process = this._startDebugger ? "vsjitdebugger.exe" : nunitPath;
+
+            ProcessStartInfo startInfo = new ProcessStartInfo {
+                FileName = process,
                 Arguments = $"\"{this._testAssemblyPath}\" --domain=Single --process=InProcess --verbose --full --workers=1 --params NAMEDPIPE={this._namedPipeName}",
                 WorkingDirectory = GetCurrentDirectory(),
                 CreateNoWindow = false
             };
 
-            if (Debugger.IsAttached) startInfo.Arguments += " --wait";
+            if (this._startDebugger) startInfo.Arguments = $"\"{nunitPath}\" " + startInfo.Arguments;
+            if (Debugger.IsAttached || this._startDebugger) startInfo.Arguments += " --wait";
 
             return startInfo;
         }

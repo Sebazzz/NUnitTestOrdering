@@ -41,7 +41,51 @@ namespace NUnitTestOrdering.Tests.TestData {
     public static class TestDataDirectories {
 
         
+        public static class MethodOrdering {
+
+            
+                public static TestDataDirectory Simple() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.MethodOrdering.Simple.Test.cs",
+
+                            
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.MethodOrdering.Simple.ExpectedTestResult.txt"
+
+                        
+                    };
+                }
+
+            
+            }
+            
+        
         public static class TestIntegrity {
+
+            
+                public static TestDataDirectory OrderedWithOrderAttribute() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.TestIntegrity.OrderedWithOrderAttribute.Test.cs",
+
+                            
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.TestIntegrity.OrderedWithOrderAttribute.ExpectedTestResult.txt"
+
+                        
+                    };
+                }
 
             
                 public static TestDataDirectory Single() {
@@ -122,8 +166,50 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     
     [TestFixture]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public sealed class MethodOrdering {
+             
+            
+        [Test]
+        public void Simple() {
+            // Given
+            var input = TestDataDirectories.MethodOrdering.Simple();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+            
+    }
+
+    
+    [TestFixture]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed class TestIntegrity {
              
+            
+        [Test]
+        public void OrderedWithOrderAttribute() {
+            // Given
+            var input = TestDataDirectories.TestIntegrity.OrderedWithOrderAttribute();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
             
         [Test]
         public void Single() {

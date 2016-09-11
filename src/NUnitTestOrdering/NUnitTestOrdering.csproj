@@ -45,11 +45,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Common\DependencyChainValidator.cs" />
+    <Compile Include="Common\DependencySorter.cs" />
+    <Compile Include="Common\IDependencyIndicator.cs" />
+    <Compile Include="Common\TestOrderingExceptino.cs" />
+    <Compile Include="MethodOrdering\Attributes.cs" />
+    <Compile Include="MethodOrdering\TestMethodDependencyChainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

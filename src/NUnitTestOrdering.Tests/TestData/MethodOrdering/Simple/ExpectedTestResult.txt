@@ -1,0 +1,6 @@
+﻿# Note: NUnit test ordering is, without explicit ordering undefined because it relies on the ordering the .NET Reflection API returns the test methods. However, in practice it always appears that it is by alphabet.
+# So, we need to ensure we have enough test methods so we remove that assumption.
+Test.One
+Test.Two
+Test.Three
+Test.Four

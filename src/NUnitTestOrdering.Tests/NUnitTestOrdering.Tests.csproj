@@ -65,24 +65,32 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Common\Support\FakeDependency.cs" />
+    <Compile Include="Common\DependencySorterTests.cs" />
+    <Compile Include="Common\DependencyValidatorTests.cs" />
     <Compile Include="Support\GlobalTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support\StartDebugger.cs" />
     <Compile Include="TestData\Common.cs" />
+    <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
     <Compile Include="TestData\TestDataIndex.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TestDataIndex.tt</DependentUpon>
     </Compile>
+    <Compile Include="TestData\TestIntegrity\Single\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\NamespaceSetUpFixture.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\GlobalSetUpFixture.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithSetupTeardown\Test.cs" />
-    <Compile Include="TestData\TestIntegrity\Single\Test.cs" />
+    <Compile Include="TestData\TestIntegrity\OrderedWithOrderAttribute\Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TestData\TestIntegrity\Single\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\MethodOrdering\Simple\ExpectedTestResult.txt" />
     <Content Include="TestData\TestDataIndex.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TestDataIndex.cs</LastGenOutput>
@@ -90,13 +98,19 @@
     <Content Include="TestData\TestIntegrity\Readme.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupFixture\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupTeardown\ExpectedTestResult.txt" />
-    <EmbeddedResource Include="TestData\TestIntegrity\Single\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\TestIntegrity\OrderedWithOrderAttribute\ExpectedTestResult.txt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TestCases\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NUnitTestOrdering\NUnitTestOrdering.csproj">
+      <Project>{2b5d82d8-daa7-4d47-bd97-b70c5135eb1d}</Project>
+      <Name>NUnitTestOrdering</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -126,9 +140,9 @@
   </Target>
   <Target Name="BeforeBuild">
     <ItemGroup>
-	  <_TestCases Include="TestData\**\*.cs" />
-	  <_TestCaseSupport Include="TestData\TestDataIndex.cs" />
-	</ItemGroup>
+      <_TestCases Include="TestData\**\*.cs" />
+      <_TestCaseSupport Include="TestData\TestDataIndex.cs" />
+    </ItemGroup>
     <ItemGroup>
       <!-- We have, at design time, marked the test files as Compile so we get proper intellisense :) -->
       <Compile Remove="@(_TestCases)" />
@@ -136,7 +150,6 @@
       <EmbeddedResource Include="@(_TestCases)" />
       <EmbeddedResource Remove="@(_TestCaseSupport)" />
     </ItemGroup>
-	
-	<Message Importance="High" Text="Testcases being excluded from compilation: @(_TestCases)" />
+    <Message Importance="High" Text="Testcases being excluded from compilation: @(_TestCases)" />
   </Target>
 </Project>
