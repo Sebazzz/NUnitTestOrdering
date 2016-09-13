@@ -33,6 +33,8 @@ public sealed class MyOrderedTestFixture : TestOrderingSpecification {
 
 Above code will run test fixture `Fixture1` first, then it will whatever fixtures in `MyOtherOrderedTestFixture` and then `Fixture2` and `Fixture3`.
 
+You may also add methods decorated with `OneTimeSetupAttribute` and `OneTimeTearDownAttribute` to allow code to run before the fixture executes and after the fixture executes.
+
 Please also view the samples [in the tests](src/NUnitTestOrdering.Tests/TestData) of various use cases showing how to use this library.
 
 ### Test Method ordering
@@ -68,6 +70,13 @@ public sealed class Test {
 ```
 
 The main advantage of this is that you can explicitly name the dependency of your test method instead of using an opaque index number.
+
+## Known issues
+Since this library can only work with whatever NUnit allows for extensibility, there are some limitations:
+
+- No SetupFixture support
+- No support for cancelling remaining tests once an integration test fails
+- Some test runners, like the ReSharper test runner use their own way of discovering tests and won't show the tests correctly. They still run correctly, though.
 
 ## Development
 ### Building
