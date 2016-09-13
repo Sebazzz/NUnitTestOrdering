@@ -81,7 +81,7 @@
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst_Child.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestDataIndex.cs">
+    <Compile Include="TestData\TestDataIndex.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TestDataIndex.tt</DependentUpon>
@@ -110,7 +110,7 @@
     <Content Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\Readme.txt" />
     <Content Include="TestData\TestDataIndex.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TestDataIndex.cs</LastGenOutput>
+      <LastGenOutput>TestDataIndex.generated.cs</LastGenOutput>
     </Content>
     <Content Include="TestData\TestIntegrity\Readme.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupFixture\ExpectedTestResult.txt" />
@@ -158,7 +158,7 @@
   <Target Name="BeforeBuild">
     <ItemGroup>
       <_TestCases Include="TestData\**\*.cs" />
-      <_TestCaseSupport Include="TestData\TestDataIndex.cs" />
+      <_TestCaseSupport Include="TestData\TestDataIndex.generated.cs" />
     </ItemGroup>
     <ItemGroup>
       <!-- We have, at design time, marked the test files as Compile so we get proper intellisense :) -->
