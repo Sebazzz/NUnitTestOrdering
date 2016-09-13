@@ -92,6 +92,11 @@ build /?
 ### Testing
 Most of the tests written for the library are "full blown" integration tests. They work by dynamically compiling an assembly and then running it and capturing the output. 
 
+#### Developing integration tests
+To develop an integration test, you need to create an directory [in the TestData directory](src/NUnitTestOrdering.Tests/TestData). Creating a directory will yield an TestFixture, and each subdirectory will yield an individual test.
+
+An test consists at least of one or more C# files and `ExpectedTestResult.txt` text file, as an embedded resource, which contains the expected logged test output. Once you have created your test files, regenerate the `TestDataIndex.tt` file. You are now ready to run your test. In case of trouble, add an `StartDebuggerAttribute` to the test method to start the NUnit application under the debugger. 
+
 ## Contributions
 This project is accepting contributions. Please keep the following guidelines in mind:
 
