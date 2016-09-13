@@ -1,0 +1,3 @@
+﻿TestOne.DoTest
+TestTwo.PreTest
+# Expect additional tests not to be run: PreTest fails

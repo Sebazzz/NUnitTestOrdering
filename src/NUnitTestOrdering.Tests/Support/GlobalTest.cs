@@ -12,6 +12,7 @@ namespace NUnitTestOrdering.Tests.Support {
     using System.IO.Pipes;
     using System.Text;
     using System.Threading;
+    using System.Xml.Linq;
 
     using MethodOrdering;
 
@@ -45,6 +46,8 @@ namespace NUnitTestOrdering.Tests.Support {
         private bool _hasCompiled;
         private string _nunitRunnerPath;
 
+        public XDocument TestResultsDocument { get; private set; }
+
         public TestRunner(TestDataDirectory testDataDirectory) {
             this._testDataDirectory = testDataDirectory;
             this._namedPipeName = Guid.NewGuid().ToString("N");
@@ -72,6 +75,7 @@ namespace NUnitTestOrdering.Tests.Support {
             TryDelete(this._testAssemblyPdbPath);
             TryDelete(this._testOutputPath);
             TryDelete(this._testErrorPath);
+            TryDelete(this._testResultPath);
         }
 
         private static void WriteArtifacts(string path, TextWriter target) {
@@ -145,8 +149,22 @@ namespace NUnitTestOrdering.Tests.Support {
                 }
             }
 
+            // Read results file
+            this.TryReadResultsFile();
+
             // Trim whitespace at end for convenience
             return outputBuilder.ToString().TrimEnd();
+        }
+
+        private void TryReadResultsFile() {
+            if (File.Exists(this._testResultPath)) {
+                try {
+                    this.TestResultsDocument = XDocument.Load(this._testResultPath);
+                }
+                catch (Exception ex) {
+                    TestContext.Out.WriteLine("Failed to read results file {0}: {1}", this._testResultPath, ex);
+                }
+            }
         }
 
         private void Compile() {
