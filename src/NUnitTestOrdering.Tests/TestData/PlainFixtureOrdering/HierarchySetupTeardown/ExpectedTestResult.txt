@@ -1,0 +1,6 @@
+﻿# Note that SetUp / TearDown methods are not supported
+RootOrderedTestFixture.OneTimeSetUp
+TestOne.DoTest
+TestTwo.PreTest
+TestTwo.DoTest
+RootOrderedTestFixture.OneTimeTearDown

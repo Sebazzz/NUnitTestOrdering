@@ -69,6 +69,28 @@ namespace NUnitTestOrdering.Tests.TestData {
         public static class PlainFixtureOrdering {
 
             
+                public static TestDataDirectory HierarchySetupTeardown() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.HierarchySetupTeardown.AssemblyInfo.cs",
+
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.HierarchySetupTeardown.RootOrderedTestFixture.cs",
+
+                            
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.PlainFixtureOrdering.HierarchySetupTeardown.ExpectedTestResult.txt"
+
+                        
+                    };
+                }
+
+            
                 public static TestDataDirectory NestedDeepHierarchy() {
 
                     return new TestDataDirectory {
@@ -273,7 +295,23 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
              
             
         [Test]
-        [StartDebugger]
+        public void HierarchySetupTeardown() {
+            // Given
+            var input = TestDataDirectories.PlainFixtureOrdering.HierarchySetupTeardown();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+            
+        [Test]
         public void NestedDeepHierarchy() {
             // Given
             var input = TestDataDirectories.PlainFixtureOrdering.NestedDeepHierarchy();

@@ -73,6 +73,8 @@
     <Compile Include="Support\StartDebugger.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\AssemblyInfo.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\AssemblyInfo.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\AssemblyInfo.cs" />
@@ -102,6 +104,8 @@
     <EmbeddedResource Include="TestData\MethodOrdering\Simple\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\ExpectedTestResult.txt" />
+    <Content Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\Readme.txt" />
     <Content Include="TestData\TestDataIndex.tt">
