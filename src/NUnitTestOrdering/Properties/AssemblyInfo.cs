@@ -1,4 +1,10 @@
-﻿using System.Reflection;
+﻿// ******************************************************************************
+//  © 2016 Sebastiaan Dammann - damsteen.nl
+// 
+//  File:           : AssemblyInfo.cs
+//  Project         : NUnitTestOrdering
+// ******************************************************************************
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 

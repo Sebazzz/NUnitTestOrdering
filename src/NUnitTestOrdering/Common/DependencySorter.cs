@@ -1,4 +1,10 @@
-﻿namespace NUnitTestOrdering.Common {
+﻿// ******************************************************************************
+//  © 2016 Sebastiaan Dammann - damsteen.nl
+// 
+//  File:           : DependencySorter.cs
+//  Project         : NUnitTestOrdering
+// ******************************************************************************
+namespace NUnitTestOrdering.Common {
     using System.Collections.Generic;
 
     internal static class DependencySorter {

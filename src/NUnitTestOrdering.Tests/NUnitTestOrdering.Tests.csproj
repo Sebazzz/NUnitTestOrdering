@@ -73,11 +73,19 @@
     <Compile Include="Support\StartDebugger.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\AssemblyInfo.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\AssemblyInfo.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst_Child.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\TestDataIndex.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>TestDataIndex.tt</DependentUpon>
     </Compile>
+    <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\NamespaceSetUpFixture.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\GlobalSetUpFixture.cs" />
@@ -89,8 +97,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TestData\TestIntegrity\Single_WithActionAttribute\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\Simple\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\ExpectedTestResult.txt" />
+    <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />
+    <Content Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\Readme.txt" />
     <Content Include="TestData\TestDataIndex.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TestDataIndex.cs</LastGenOutput>

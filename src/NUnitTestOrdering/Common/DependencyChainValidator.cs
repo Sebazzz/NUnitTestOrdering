@@ -4,7 +4,6 @@
 //  File:           : DependencyChainValidator.cs
 //  Project         : NUnitTestOrdering
 // ******************************************************************************
-
 namespace NUnitTestOrdering.Common {
     using System;
     using System.Collections.Generic;

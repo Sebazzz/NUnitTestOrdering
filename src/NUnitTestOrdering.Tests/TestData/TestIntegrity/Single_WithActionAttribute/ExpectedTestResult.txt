@@ -1,0 +1,9 @@
+﻿# This is a simple test. If this test fails, something is wrong with gathering the test results.
+MyActionAttribute.BeforeTest
+MyActionAttribute.BeforeTest [NUnitTestOrdering.Tests.TestData.TestIntegrity.Single_WithActionAttribute.UnorderedTest]
+UnorderedTest.Execute
+MyActionAttribute.AfterTest [NUnitTestOrdering.Tests.TestData.TestIntegrity.Single_WithActionAttribute.UnorderedTest]
+MyActionAttribute.AfterTest
+
+# This is also an demonstration of the test format. ExpectedTestResult.txt file will ignore
+# empty lines, and lines prefixed with a pound sign (#)

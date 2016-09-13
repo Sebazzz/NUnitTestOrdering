@@ -1,4 +1,10 @@
-﻿namespace NUnitTestOrdering.Common {
+﻿// ******************************************************************************
+//  © 2016 Sebastiaan Dammann - damsteen.nl
+// 
+//  File:           : IDependencyIndicator.cs
+//  Project         : NUnitTestOrdering
+// ******************************************************************************
+namespace NUnitTestOrdering.Common {
     using System;
 
     internal interface IDependencyIndicator<T> : IEquatable<T> {

@@ -1,0 +1,1 @@
+﻿This test represents the most basic scenario that may happen during testing: A single namespace containing ordered tests.

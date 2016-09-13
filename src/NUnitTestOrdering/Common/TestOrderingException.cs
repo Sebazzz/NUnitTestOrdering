@@ -1,10 +1,9 @@
 ﻿// ******************************************************************************
 //  © 2016 Sebastiaan Dammann - damsteen.nl
 // 
-//  File:           : TestOrderingExceptino.cs
+//  File:           : TestOrderingException.cs
 //  Project         : NUnitTestOrdering
 // ******************************************************************************
-
 namespace NUnitTestOrdering.Common {
     using System;
     using System.Runtime.Serialization;

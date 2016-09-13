@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.3.4.1\lib\net45\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -44,11 +45,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Common\DependencyChainValidator.cs" />
     <Compile Include="Common\DependencySorter.cs" />
     <Compile Include="Common\IDependencyIndicator.cs" />
-    <Compile Include="Common\TestOrderingExceptino.cs" />
+    <Compile Include="Common\NullableDictionary.cs" />
+    <Compile Include="Common\TestOrderingException.cs" />
+    <Compile Include="FixtureOrdering\EnableTestFixtureOrderingAttribute.cs" />
+    <Compile Include="FixtureOrdering\Internal\IOrderedTestPart.cs" />
+    <Compile Include="FixtureOrdering\Internal\OrderedTestRootSuite.cs" />
+    <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixture.cs" />
+    <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixtureBuilder.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestAssemblyOrderer.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestAssemblyOrderingContext.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestHierarchyUtility.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestInfo.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestOrderingSpecificationDiscoverer.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestOrderingSpecificationTestPart.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestFixtureTestPart.cs" />
+    <Compile Include="FixtureOrdering\OrderedTestFixtureAttribute.cs" />
+    <Compile Include="FixtureOrdering\TestOrderingSpecification.cs" />
     <Compile Include="MethodOrdering\Attributes.cs" />
     <Compile Include="MethodOrdering\TestMethodDependencyChainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

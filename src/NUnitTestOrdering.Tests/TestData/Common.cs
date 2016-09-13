@@ -13,8 +13,12 @@ namespace NUnitTestOrdering.Tests.TestData {
     using System.Text;
 
     using NUnit.Framework;
-
-    public sealed class Common {
+    
+    /// <summary>
+    /// Helper class for logging. Note we explicitly _dont_  use one of the initializer attributes here,
+    /// as we don't want to influence how NUnit runs the tests
+    /// </summary>
+    internal sealed class Common {
         private static Common LazyInstance;
         public static Common Instance => LazyInstance ?? (LazyInstance = new Common());
 
@@ -45,13 +49,15 @@ namespace NUnitTestOrdering.Tests.TestData {
         }
 
         public void Log(string s) {
+            TestContext.Out.WriteLine(s);
+
             this._streamWriter.WriteLine(s);
             this._streamWriter.Flush();
             this._namedPipe.WaitForPipeDrain();
         }
     }
 
-    public sealed class TestLogger {
+    internal sealed class TestLogger {
         private readonly object _testInstance;
 
         public TestLogger(object testInstance) {
@@ -60,7 +66,7 @@ namespace NUnitTestOrdering.Tests.TestData {
 
         public void Log(string extraData = null, [CallerMemberName] string method = null) {
             string extraDataString = string.Empty;
-            if (extraData != null) extraDataString = ' ' + '[' + extraData + ']';
+            if (!String.IsNullOrEmpty(extraData)) extraDataString = $" [{extraData}]";
 
             Common.Instance.Log($"{this._testInstance.GetType().Name}.{method}{extraDataString}");
         }

@@ -34,6 +34,10 @@ namespace NUnitTestOrdering.Tests.Support {
         private readonly string _testAssemblyName;
         private readonly string _testAssemblyPath;
         private readonly string _testAssemblyPdbPath;
+        private readonly string _testErrorPath;
+        private readonly string _testOutputPath;
+        private readonly string _testResultPath;
+
         private readonly bool _startDebugger;
 
         private readonly TestDataDirectory _testDataDirectory;
@@ -51,6 +55,9 @@ namespace NUnitTestOrdering.Tests.Support {
                     GetCurrentDirectory(),
                     Path.ChangeExtension(this._testAssemblyName, ".dll"));
             this._testAssemblyPdbPath = Path.ChangeExtension(this._testAssemblyPath, ".pdb");
+            this._testErrorPath = Path.ChangeExtension(this._testAssemblyPath, ".err.log");
+            this._testOutputPath = Path.ChangeExtension(this._testAssemblyPath, ".out.log");
+            this._testResultPath = Path.ChangeExtension(this._testAssemblyPath, ".xml");
 
             Environment.SetEnvironmentVariable("_TEST_PIPENAME", this._namedPipeName);
 
@@ -58,8 +65,19 @@ namespace NUnitTestOrdering.Tests.Support {
         }
 
         public void Dispose() {
+            WriteArtifacts(this._testErrorPath, TestContext.Error);
+            WriteArtifacts(this._testOutputPath, TestContext.Out);
+
             TryDelete(this._testAssemblyPath);
             TryDelete(this._testAssemblyPdbPath);
+            TryDelete(this._testOutputPath);
+            TryDelete(this._testErrorPath);
+        }
+
+        private static void WriteArtifacts(string path, TextWriter target) {
+            if (File.Exists(path)) {
+                target.WriteLine(File.ReadAllText(path));
+            }
         }
 
         private static void TryDelete(string path) {
@@ -84,7 +102,7 @@ namespace NUnitTestOrdering.Tests.Support {
                         StartInfo = this.GetConsoleArguments()
                     };
 
-                    Trace.WriteLine($"Starting process with arguments: {process.StartInfo.Arguments}");
+                    TestContext.WriteLine($"Starting process with arguments: {process.StartInfo.Arguments}");
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
                     ParameterizedThreadStart namedPipePump = o => {
                                                                  CancellationToken ct = (CancellationToken) o;
@@ -99,7 +117,8 @@ namespace NUnitTestOrdering.Tests.Support {
                                                              };
 
                     Thread thread = new Thread(namedPipePump) {
-                        Name = "TestPump"
+                        Name = "TestPump",
+                        IsBackground = true
                     };
 
                     thread.Start(cancellationTokenSource.Token);
@@ -107,7 +126,12 @@ namespace NUnitTestOrdering.Tests.Support {
                     try {
                         process.Start();
 
-                        process.WaitForExit(1000 * 60 * 10);
+                        if (this._startDebugger) {
+                            process.WaitForExit();
+                        } else {
+                            process.WaitForExit(1000 * 60 * 10);
+                        }
+
                         if (!process.HasExited) process.Kill();
                     }
                     finally {
@@ -160,8 +184,16 @@ namespace NUnitTestOrdering.Tests.Support {
                 Stream resourceStream = this.GetType().Assembly.GetManifestResourceStream(resourceName);
                 if (resourceStream == null) Assert.Inconclusive("Unable to find embedded resource {0}", resourceName);
 
+                string path = resourceName.Replace('.', '/');
+                int lastDot = resourceName.LastIndexOf('.');
+                path = path.Substring(0, lastDot) + '.' + path.Substring(lastDot + 1);
+
                 using (StreamReader sr = new StreamReader(resourceStream)) {
-                    trees[index++] = CSharpSyntaxTree.ParseText(sr.ReadToEnd());
+                    trees[index++] = CSharpSyntaxTree.ParseText(
+                        path:path,
+                        text: sr.ReadToEnd(),
+                        options: new CSharpParseOptions(LanguageVersion.CSharp6, DocumentationMode.None),
+                        encoding:Encoding.UTF8);
                 }
             }
 
@@ -174,7 +206,7 @@ namespace NUnitTestOrdering.Tests.Support {
 
             ProcessStartInfo startInfo = new ProcessStartInfo {
                 FileName = process,
-                Arguments = $"\"{this._testAssemblyPath}\" --domain=Single --process=InProcess --verbose --full --workers=1 --params NAMEDPIPE={this._namedPipeName}",
+                Arguments = $"\"{this._testAssemblyPath}\" --domain=Single \"--result={this._testResultPath};format=nunit3\" \"--out={this._testOutputPath}\"  \"--err={this._testErrorPath}\" --process=InProcess --verbose --full --workers=1 --params NAMEDPIPE={this._namedPipeName}",
                 WorkingDirectory = GetCurrentDirectory(),
                 CreateNoWindow = false
             };

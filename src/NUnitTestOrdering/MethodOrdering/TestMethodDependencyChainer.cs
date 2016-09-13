@@ -4,8 +4,6 @@
 //  File:           : TestMethodDependencyChainer.cs
 //  Project         : NUnitTestOrdering
 // ******************************************************************************
-
-
 namespace NUnitTestOrdering.MethodOrdering {
     using System;
     using System.Collections.Generic;

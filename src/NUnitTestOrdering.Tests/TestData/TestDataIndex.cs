@@ -66,6 +66,62 @@ namespace NUnitTestOrdering.Tests.TestData {
             }
             
         
+        public static class PlainFixtureOrdering {
+
+            
+                public static TestDataDirectory NestedDeepHierarchy() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.NestedDeepHierarchy.AssemblyInfo.cs",
+
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.NestedDeepHierarchy.DeepOrderedTestFixtureFirst.cs",
+
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.NestedDeepHierarchy.DeepOrderedTestFixtureFirst_Child.cs",
+
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.NestedDeepHierarchy.RootOrderedTestFixture.cs",
+
+                            
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.PlainFixtureOrdering.NestedDeepHierarchy.ExpectedTestResult.txt"
+
+                        
+                    };
+                }
+
+            
+                public static TestDataDirectory OneDeepHierarchy() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.OneDeepHierarchy.AssemblyInfo.cs",
+
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.PlainFixtureOrdering.OneDeepHierarchy.RootOrderedTestFixture.cs",
+
+                            
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.PlainFixtureOrdering.OneDeepHierarchy.ExpectedTestResult.txt"
+
+                        
+                    };
+                }
+
+            
+            }
+            
+        
         public static class TestIntegrity {
 
             
@@ -101,6 +157,28 @@ namespace NUnitTestOrdering.Tests.TestData {
 
                         
                         ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.TestIntegrity.Single.ExpectedTestResult.txt"
+
+                        
+                    };
+                }
+
+            
+                public static TestDataDirectory Single_WithActionAttribute() {
+
+                    return new TestDataDirectory {
+                        Files = new [] {
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.TestIntegrity.Single_WithActionAttribute.AssemblyInfo.cs",
+
+                                                            
+                                typeof(TestDataDirectory).Assembly.GetName().Name + "." + "TestData.TestIntegrity.Single_WithActionAttribute.Test.cs",
+
+                            
+                            typeof(TestDataDirectory).Assembly.GetName().Name + "." + @"TestData.Common.cs"
+                        },
+
+                        
+                        ExpectedResultFile = typeof(TestDataDirectory).Assembly.GetName().Name + ".TestData.TestIntegrity.Single_WithActionAttribute.ExpectedTestResult.txt"
 
                         
                     };
@@ -191,6 +269,49 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     
     [TestFixture]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public sealed class PlainFixtureOrdering {
+             
+            
+        [Test]
+        [StartDebugger]
+        public void NestedDeepHierarchy() {
+            // Given
+            var input = TestDataDirectories.PlainFixtureOrdering.NestedDeepHierarchy();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+            
+        [Test]
+        public void OneDeepHierarchy() {
+            // Given
+            var input = TestDataDirectories.PlainFixtureOrdering.OneDeepHierarchy();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+            
+    }
+
+    
+    [TestFixture]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed class TestIntegrity {
              
             
@@ -215,6 +336,23 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         public void Single() {
             // Given
             var input = TestDataDirectories.TestIntegrity.Single();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+        }
+
+            
+        [Test]
+        public void Single_WithActionAttribute() {
+            // Given
+            var input = TestDataDirectories.TestIntegrity.Single_WithActionAttribute();
             string expectedResult = input.ReadResultsFile();
 
             // When
