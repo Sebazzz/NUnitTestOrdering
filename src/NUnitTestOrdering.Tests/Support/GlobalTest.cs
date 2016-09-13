@@ -28,7 +28,7 @@ namespace NUnitTestOrdering.Tests.Support {
         private static readonly MetadataReference SystemReference = MetadataReference.CreateFromFile(typeof(Uri).Assembly.Location);
         private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(NamedPipeServerStream).Assembly.Location);
         private static readonly MetadataReference NUnitReference = MetadataReference.CreateFromFile(typeof(OneTimeSetUpAttribute).Assembly.Location);
-        private static readonly MetadataReference NUnitTestOrderingReference = MetadataReference.CreateFromFile(typeof(TestMethodWithoutDependency).Assembly.Location);
+        private static readonly MetadataReference NUnitTestOrderingReference = MetadataReference.CreateFromFile(typeof(TestMethodWithoutDependencyAttribute).Assembly.Location);
 
         private readonly string _namedPipeName;
         private readonly string _testAssemblyName;

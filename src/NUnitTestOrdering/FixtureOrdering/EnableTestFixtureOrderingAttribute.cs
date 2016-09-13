@@ -21,6 +21,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class EnableTestFixtureOrderingAttribute : NUnitAttribute, IApplyToTest, IApplyToContext {
+        /// <inheritdoc />
         public void ApplyToTest(Test test) {
             TestAssembly testAssembly = test as TestAssembly;
 
@@ -32,6 +33,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
             orderer.ApplyOrdering();
         }
 
+        /// <inheritdoc />
         public void ApplyToContext(TestExecutionContext context) {
             // Note of the comment below: "execute" means in NUnit terms actually "discovering and scheduling
             // work items _and_ execute them"

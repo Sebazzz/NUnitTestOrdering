@@ -16,7 +16,7 @@ namespace NUnitTestOrdering.MethodOrdering {
     using NUnit.Framework;
     using NUnit.Framework.Internal;
 
-    public class TestMethodDependencyChainer {
+    internal class TestMethodDependencyChainer {
         public static TestMethodDependencyChainer Instance = new TestMethodDependencyChainer();
 
         private readonly List<TestCaseWrapper> _testCaseDescriptors = new List<TestCaseWrapper>();

@@ -6,11 +6,9 @@
 // ******************************************************************************
 
 namespace NUnitTestOrdering.FixtureOrdering.Internal {
-    using Common;
-
     using NUnit.Framework.Internal;
 
-    public sealed class TestAssemblyOrderer {
+    internal sealed class TestAssemblyOrderer {
         private readonly TestAssembly _testAssembly;
         private readonly TestAssemblyOrderingContext _context;
 
@@ -22,8 +20,6 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
         public void ApplyOrdering() {
             this._context.Initialize();
         }
-
-        
     }
 
 

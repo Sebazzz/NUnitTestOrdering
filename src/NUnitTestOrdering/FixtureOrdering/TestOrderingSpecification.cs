@@ -19,6 +19,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     public abstract class TestOrderingSpecification {
         private readonly List<IOrderedTestPart> _parts;
 
+        /// <inheritdoc />
         protected TestOrderingSpecification() {
             this._parts = new List<IOrderedTestPart>();
         }
