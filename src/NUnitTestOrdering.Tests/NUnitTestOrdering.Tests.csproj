@@ -145,9 +145,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestCases\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\NUnitTestOrdering\NUnitTestOrdering.csproj">
       <Project>{2b5d82d8-daa7-4d47-bd97-b70c5135eb1d}</Project>
