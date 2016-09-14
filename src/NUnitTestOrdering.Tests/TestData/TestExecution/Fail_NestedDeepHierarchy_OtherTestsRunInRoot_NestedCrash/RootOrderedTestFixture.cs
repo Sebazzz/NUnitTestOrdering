@@ -5,27 +5,29 @@
 //  Project         : NUnitTestOrdering.Tests
 // ******************************************************************************
 
-namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierarchy.DeepOrderedTestFixtureFirst {
+namespace NUnitTestOrdering.Tests.TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash {
+    using DeepOrderedTestFixtureFirst;
+
     using FixtureOrdering;
 
     using NUnit.Framework;
 
-    //[OrderedTestFixture] //Note: delibate no atrribute so we test how everything behaves
-    public sealed class OrderedTestFixture : TestOrderingSpecification {
+    [OrderedTestFixture]
+    public sealed class RootOrderedTestFixture : TestOrderingSpecification {
         protected override void DefineTestOrdering() {
-            this.TestFixture<Nest1TestOne>();
-            this.TestFixture<Nest1TestTwo>();
+            this.TestFixture<RootTestOne>();
 
-            this.OrderedTestSpecification<Child.OrderedTestFixture>();
+            this.OrderedTestSpecification<OrderedTestFixture>();
 
-            this.TestFixture<Nest1TestThree>();
+            this.TestFixture<RootTestTwo>();
+            this.TestFixture<RootTestThree>();
         }
 
-        protected override bool ContinueOnError => false;
+        protected override bool ContinueOnError => true;
     }
 
     [TestFixture]
-    public sealed class Nest1TestOne : LoggingTestBase {
+    public sealed class RootTestOne : LoggingTestBase {
         [Test]
         public void DoTest() {
             this.Log();
@@ -33,7 +35,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierar
     }
 
     [TestFixture]
-    public sealed class Nest1TestTwo : LoggingTestBase {
+    public sealed class RootTestTwo : LoggingTestBase {
         [Test]
         [Order(2)]
         public void DoTest() {
@@ -48,7 +50,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierar
     }
 
     [TestFixture]
-    public sealed class Nest1TestThree : LoggingTestBase {
+    public sealed class RootTestThree : LoggingTestBase {
         [Test]
         public void DoTest() {
             this.Log();

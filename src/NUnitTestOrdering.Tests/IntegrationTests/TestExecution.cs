@@ -14,13 +14,22 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     using Support;
 
     partial class TestExecution {
-        partial void Fail_OneDeepHierarchy_AssertResultsFile(ResultsDocument testResults) {
+        partial void Fail_OneDeepHierarchy_OtherTestsSkipped_AssertResultsFile(ResultsDocument testResults) {
             string baseName = "Ordered.RootOrderedTestFixture";
 
             Assert.That(testResults.GetTestResult(baseName + ".TestOne"), Is.EqualTo(TestStatus.Passed));
             Assert.That(testResults.GetTestResult(baseName + ".TestTwo"), Is.EqualTo(TestStatus.Failed));
             Assert.That(testResults.GetTestResult(baseName + ".TestTwo.DoTest"), Is.EqualTo(TestStatus.Inconclusive));
             Assert.That(testResults.GetTestResult(baseName + ".TestThree.DoTest"), Is.EqualTo(TestStatus.Inconclusive));
+        }
+
+        partial void Fail_OneDeepHierarchy_OtherTestsRun_AssertResultsFile(ResultsDocument testResults) {
+            string baseName = "Ordered.RootOrderedTestFixture";
+
+            Assert.That(testResults.GetTestResult(baseName + ".TestOne"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".TestTwo"), Is.EqualTo(TestStatus.Failed));
+            Assert.That(testResults.GetTestResult(baseName + ".TestTwo.DoTest"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".TestThree.DoTest"), Is.EqualTo(TestStatus.Passed));
         }
     }
 }

@@ -131,9 +131,9 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class TestExecution {
         [Test]
-        public void Fail_OneDeepHierarchy() {
+        public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot() {
             // Given
-            var input = TestDataDirectories.TestExecution.Fail_OneDeepHierarchy();
+            var input = TestDataDirectories.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot();
             string expectedResult = input.ReadResultsFile();
 
             // When
@@ -149,11 +149,86 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             Assert.That(result, Is.EqualTo(expectedResult));
 
             if (rawResultsDocument != null) {
-                Fail_OneDeepHierarchy_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+                Fail_NestedDeepHierarchy_OtherTestsRunInRoot_AssertResultsFile(new ResultsDocument(rawResultsDocument));
             }
         }
 
-        partial void Fail_OneDeepHierarchy_AssertResultsFile(ResultsDocument testResults);
+        partial void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_AssertResultsFile(ResultsDocument testResults);
+
+        [Test]
+        public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash() {
+            // Given
+            var input = TestDataDirectories.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash_AssertResultsFile(ResultsDocument testResults);
+
+        [Test]
+        public void Fail_OneDeepHierarchy_OtherTestsRun() {
+            // Given
+            var input = TestDataDirectories.TestExecution.Fail_OneDeepHierarchy_OtherTestsRun();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                Fail_OneDeepHierarchy_OtherTestsRun_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void Fail_OneDeepHierarchy_OtherTestsRun_AssertResultsFile(ResultsDocument testResults);
+
+        [Test]
+        public void Fail_OneDeepHierarchy_OtherTestsSkipped() {
+            // Given
+            var input = TestDataDirectories.TestExecution.Fail_OneDeepHierarchy_OtherTestsSkipped();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                Fail_OneDeepHierarchy_OtherTestsSkipped_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void Fail_OneDeepHierarchy_OtherTestsSkipped_AssertResultsFile(ResultsDocument testResults);
 
     }
 
@@ -382,15 +457,52 @@ namespace NUnitTestOrdering.Tests.TestData {
         }
 
         public static class TestExecution {
-            public static TestDataDirectory Fail_OneDeepHierarchy() {
+            public static TestDataDirectory Fail_NestedDeepHierarchy_OtherTestsRunInRoot() {
                 return new TestDataDirectory {
                     Files = new [] {
-                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_OneDeepHierarchy.AssemblyInfo.cs",
-                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_OneDeepHierarchy.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.DeepOrderedTestFixtureFirst.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.DeepOrderedTestFixtureFirst_Child.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.RootOrderedTestFixture.cs",
                              ThisAssemblyName + "." + @"TestData.Common.cs"
                         },
 
-                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestExecution.Fail_OneDeepHierarchy.ExpectedTestResult.txt"
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash.DeepOrderedTestFixtureFirst.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash.DeepOrderedTestFixtureFirst_Child.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory Fail_OneDeepHierarchy_OtherTestsRun() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_OneDeepHierarchy_OtherTestsRun.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_OneDeepHierarchy_OtherTestsRun.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestExecution.Fail_OneDeepHierarchy_OtherTestsRun.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory Fail_OneDeepHierarchy_OtherTestsSkipped() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_OneDeepHierarchy_OtherTestsSkipped.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestExecution.Fail_OneDeepHierarchy_OtherTestsSkipped.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestExecution.Fail_OneDeepHierarchy_OtherTestsSkipped.ExpectedTestResult.txt"
                 };
             }
         }

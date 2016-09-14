@@ -2,6 +2,16 @@
 
 This library allows you to use test ordering with NUnit. The primary use case is to allow integration tests to depend on each other. Don't use this library to order to unit tests, that's bad practice!
 
+## Features
+The library offers the following features:
+
+- Build complex test ordering hierarchies
+- Skip subsequent tests if an test in order fails
+- Order your test methods by dependency instead of integer order
+- Supports usage side-by-side with unordered tests. Unordered tests are executed first.
+
+Please also view the [known issues](#known-issues) below.
+
 ## Usage
 
 Include the library into your project and include this in your AssemblyInfo file:
@@ -28,6 +38,8 @@ public sealed class MyOrderedTestFixture : TestOrderingSpecification {
         TestFixture<Fixture2>();
         TestFixture<Fixture3>();
     }
+
+    protected override bool ContinueOnError => false; // Or true, if you want to continue even if a child test fails
 }
 ```
 
@@ -75,8 +87,10 @@ The main advantage of this is that you can explicitly name the dependency of you
 Since this library can only work with whatever NUnit allows for extensibility, there are some limitations:
 
 - No SetupFixture support
-- No support for cancelling remaining tests once an integration test fails
-- Some test runners, like the ReSharper test runner use their own way of discovering tests and won't show the tests correctly. They still run correctly, though.
+- A single test can only be specified once in a test ordering
+
+Related to test runners:
+- Some test runners, like the ReSharper test runner use their own way of discovering tests and won't show the tests correctly. They still run correctly, though. Other test runners, like the NUnit console runner or GUI runner work perfectly.
 
 ## Development
 ### Building

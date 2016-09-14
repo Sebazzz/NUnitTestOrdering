@@ -17,6 +17,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.OneDeepHierarchy
             this.TestFixture<TestTwo>();
             this.TestFixture<TestThree>();
         }
+        protected override bool ContinueOnError => false;
     }
 
     [TestFixture]

@@ -8,6 +8,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Runtime.InteropServices;
 
     using Common;
 
@@ -29,6 +30,22 @@ namespace NUnitTestOrdering.FixtureOrdering {
         /// <see cref="TestFixture{T}"/> and <see cref="OrderedTestSpecification{T}"/> method
         /// </summary>
         protected abstract void DefineTestOrdering();
+
+        /// <summary>
+        /// Gets whether to continue test execution of this fixture when a child test fixture fails. See remarks.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        ///     When this property returns <c>false</c>: Execution of this test fixture will never stop, though still marked as failed.
+        /// </para>
+        /// <para>
+        ///     When this property returns <c>true</c>:
+        ///     - When a child test fixture fails, this ordered fixture will be marked as failed and further test execution will be stopped
+        ///     - When a child test ordered test fails, and the child ordered test has <see cref="ContinueOnError"/> set to true,
+        ///       this ordered test fixture will be marked as failed and further test execution will be stopped.
+        /// </para>
+        /// </remarks>
+        protected abstract bool ContinueOnError { get; }
 
         /// <summary>
         /// Run the specified test fixture
@@ -59,7 +76,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
             return this._parts;
         }
 
-        internal static ICollection<IOrderedTestPart> RunSpecification(Type type) {
+        internal static TestSpecificationInfo RunSpecification(Type type) {
             TestOrderingSpecification spec;
 
             try {
@@ -75,7 +92,18 @@ namespace NUnitTestOrdering.FixtureOrdering {
                 throw new TestOrderingException($"Unable to instantiate test ordering specification {type.FullName}", ex);
             }
 
-            return spec.GetTestParts();
+            return new TestSpecificationInfo(spec.ContinueOnError, spec.GetTestParts());
+        }
+    }
+
+    [StructLayout(LayoutKind.Auto)]
+    internal struct TestSpecificationInfo {
+        public ICollection<IOrderedTestPart> Parts { get; }
+        public bool ContinueOnError { get; }
+
+        public TestSpecificationInfo(bool continueOnError, ICollection<IOrderedTestPart> parts) {
+            this.ContinueOnError = continueOnError;
+            this.Parts = parts;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierar
             this.TestFixture<Nest2TestTwo>();
             this.TestFixture<Nest2TestThree>();
         }
+        protected override bool ContinueOnError => false;
     }
 
     [TestFixture]

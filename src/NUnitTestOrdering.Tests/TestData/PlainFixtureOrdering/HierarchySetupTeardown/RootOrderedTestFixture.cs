@@ -32,6 +32,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.HierarchySetupTe
             this.TestFixture<TestOne>();
             this.TestFixture<TestTwo>();
         }
+        protected override bool ContinueOnError => false;
     }
 
     [TestFixture]

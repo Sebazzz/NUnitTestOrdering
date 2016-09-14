@@ -5,22 +5,27 @@
 //  Project         : NUnitTestOrdering.Tests
 // ******************************************************************************
 
-namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.Fail_OneDeepHierarchy {
+namespace NUnitTestOrdering.Tests.TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.DeepOrderedTestFixtureFirst {
     using FixtureOrdering;
 
     using NUnit.Framework;
 
-    [OrderedTestFixture]
-    public sealed class RootOrderedTestFixture : TestOrderingSpecification {
+    //[OrderedTestFixture] //Note: delibate no atrribute so we test how everything behaves
+    public sealed class OrderedTestFixture : TestOrderingSpecification {
         protected override void DefineTestOrdering() {
-            this.TestFixture<TestOne>();
-            this.TestFixture<TestTwo>();
-            this.TestFixture<TestThree>();
+            this.TestFixture<Nest1TestOne>();
+            this.TestFixture<Nest1TestTwo>();
+
+            this.OrderedTestSpecification<Child.OrderedTestFixture>();
+
+            this.TestFixture<Nest1TestThree>();
         }
+
+        protected override bool ContinueOnError => false;
     }
 
     [TestFixture]
-    public sealed class TestOne : LoggingTestBase {
+    public sealed class Nest1TestOne : LoggingTestBase {
         [Test]
         public void DoTest() {
             this.Log();
@@ -28,7 +33,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.Fail_OneDeepHier
     }
 
     [TestFixture]
-    public sealed class TestTwo : LoggingTestBase {
+    public sealed class Nest1TestTwo : LoggingTestBase {
         [Test]
         [Order(2)]
         public void DoTest() {
@@ -39,12 +44,11 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.Fail_OneDeepHier
         [Order(1)]
         public void PreTest() {
             this.Log();
-            Assert.Fail("Subsequent tests need to fail");
         }
     }
 
     [TestFixture]
-    public sealed class TestThree : LoggingTestBase {
+    public sealed class Nest1TestThree : LoggingTestBase {
         [Test]
         public void DoTest() {
             this.Log();

@@ -1,6 +1,5 @@
 ﻿namespace NUnitTestOrdering.FixtureOrdering.Internal {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
 
     using Common;
@@ -40,16 +39,17 @@
         }
 
         private void AddPartsToFixture(OrderedTestSpecificationFixture orderedTestFixture, Type type) {
-            ICollection<IOrderedTestPart> parts = TestOrderingSpecification.RunSpecification(type);
+            TestSpecificationInfo testInfo = TestOrderingSpecification.RunSpecification(type);
+            orderedTestFixture.ContinueOnError = testInfo.ContinueOnError;
 
-            if (parts.Count == 0) {
+            if (testInfo.Parts.Count == 0) {
                 orderedTestFixture.RunState = RunState.NotRunnable;
                 orderedTestFixture.Properties.Set(PropertyNames.SkipReason, "The ordered specification doesn't contain any child tests");
                 return;
             }
 
             int order = 0;
-            foreach (IOrderedTestPart part in parts) {
+            foreach (IOrderedTestPart part in testInfo.Parts) {
                 Test test = part.GetTest(this._context);
                 
                 if (test.TypeInfo != null) {

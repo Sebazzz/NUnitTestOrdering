@@ -24,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\Debug\</OutputPath>
+    <OutputPath>..\..\build\Debug\net46\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\net46\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -91,8 +91,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TestDataIndex.tt</DependentUpon>
     </Compile>
-    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\DeepOrderedTestFixtureFirst.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\DeepOrderedTestFixtureFirst_Child.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\DeepOrderedTestFixtureFirst.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\DeepOrderedTestFixtureFirst_Child.cs" />
+    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\AssemblyInfo.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single\Test.cs" />
@@ -119,8 +129,14 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TestDataIndex.generated.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="TestData\TestExecution\Fail_OneDeepHierarchy\ExpectedTestResult.txt" />
-    <Content Include="TestData\TestExecution\Fail_OneDeepHierarchy\Readme.txt" />
+    <EmbeddedResource Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\ExpectedTestResult.txt" />
+    <Content Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\Readme.txt" />
+    <Content Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\Readme.txt" />
+    <Content Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\Readme.txt" />
+    <EmbeddedResource Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\ExpectedTestResult.txt" />
+    <Content Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\Readme.txt" />
     <Content Include="TestData\TestIntegrity\Readme.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupFixture\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupTeardown\ExpectedTestResult.txt" />

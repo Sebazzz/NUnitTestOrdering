@@ -5,27 +5,23 @@
 //  Project         : NUnitTestOrdering.Tests
 // ******************************************************************************
 
-namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierarchy.DeepOrderedTestFixtureFirst {
+namespace NUnitTestOrdering.Tests.TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot.DeepOrderedTestFixtureFirst.Child {
     using FixtureOrdering;
 
     using NUnit.Framework;
 
-    //[OrderedTestFixture] //Note: delibate no atrribute so we test how everything behaves
+    [OrderedTestFixture]
     public sealed class OrderedTestFixture : TestOrderingSpecification {
         protected override void DefineTestOrdering() {
-            this.TestFixture<Nest1TestOne>();
-            this.TestFixture<Nest1TestTwo>();
-
-            this.OrderedTestSpecification<Child.OrderedTestFixture>();
-
-            this.TestFixture<Nest1TestThree>();
+            this.TestFixture<Nest2TestOne>();
+            this.TestFixture<Nest2TestTwo>();
+            this.TestFixture<Nest2TestThree>();
         }
-
         protected override bool ContinueOnError => false;
     }
 
     [TestFixture]
-    public sealed class Nest1TestOne : LoggingTestBase {
+    public sealed class Nest2TestOne : LoggingTestBase {
         [Test]
         public void DoTest() {
             this.Log();
@@ -33,11 +29,12 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierar
     }
 
     [TestFixture]
-    public sealed class Nest1TestTwo : LoggingTestBase {
+    public sealed class Nest2TestTwo : LoggingTestBase {
         [Test]
         [Order(2)]
         public void DoTest() {
-            this.Log();
+            this.Log("Crash");
+            Assert.Fail("I need to fail, and only the root should continue.");
         }
 
         [Test]
@@ -48,7 +45,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierar
     }
 
     [TestFixture]
-    public sealed class Nest1TestThree : LoggingTestBase {
+    public sealed class Nest2TestThree : LoggingTestBase {
         [Test]
         public void DoTest() {
             this.Log();

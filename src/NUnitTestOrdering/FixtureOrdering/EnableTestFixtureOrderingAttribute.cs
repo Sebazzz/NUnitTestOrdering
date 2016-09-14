@@ -11,6 +11,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     using Common;
 
     using Internal;
+    using Internal.ExecutionTracking;
 
     using NUnit.Framework;
     using NUnit.Framework.Interfaces;
@@ -22,6 +23,12 @@ namespace NUnitTestOrdering.FixtureOrdering {
     [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class EnableTestFixtureOrderingAttribute : NUnitAttribute, IApplyToTest, IApplyToContext, ITestAction {
         private bool _cancelTest;
+        private readonly TestExecutionTracker _testExecutionTracker;
+
+        /// <inheritdoc/>
+        public EnableTestFixtureOrderingAttribute() {
+            this._testExecutionTracker = new TestExecutionTracker();
+        }
 
         /// <inheritdoc />
         public void ApplyToTest(Test test) {
@@ -52,10 +59,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
 
         /// <inheritdoc />
         public void BeforeTest(ITest test) {
-            TestExecutionContext currentTestContext = TestExecutionContext.GetTestExecutionContext();
-            if (currentTestContext != null) {
-                this.BeforeTestCore(currentTestContext);
-            }
+            this._testExecutionTracker.HandleTestStart(test);
         }
 
         private void BeforeTestCore(TestExecutionContext testContext) {
@@ -66,6 +70,8 @@ namespace NUnitTestOrdering.FixtureOrdering {
 
         /// <inheritdoc />
         public void AfterTest(ITest test) {
+            this._testExecutionTracker.TrackExecution(test);
+
             TestContext currentTestContext = TestContext.CurrentContext;
             if (currentTestContext == null) {
                 return;

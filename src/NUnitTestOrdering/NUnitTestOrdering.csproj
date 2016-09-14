@@ -16,22 +16,22 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\Debug\</OutputPath>
+    <OutputPath>..\..\build\Debug\net46\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RegisterForComInterop>false</RegisterForComInterop>
-    <DocumentationFile>..\..\build\Debug\NUnitTestOrdering.XML</DocumentationFile>
+    <DocumentationFile>..\..\build\Debug\net46\NUnitTestOrdering.XML</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\build\Release\</OutputPath>
+    <OutputPath>..\..\build\Release\net46\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\build\Release\NUnitTestOrdering.XML</DocumentationFile>
+    <DocumentationFile>..\..\build\Release\net46\NUnitTestOrdering.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
@@ -55,17 +55,32 @@
     <Compile Include="Common\NullableDictionary.cs" />
     <Compile Include="Common\TestOrderingException.cs" />
     <Compile Include="FixtureOrdering\EnableTestFixtureOrderingAttribute.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\ExecutionUtility.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\ITestTracker.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\OrderedTestSpecificationFixtureExecutionTracker.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestExecutionTrackingContext.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestFixtureExecutionTracker.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestMethodExecutionTracker.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestWrapper.cs" />
+    <Compile Include="FixtureOrdering\Internal\InternalPropertyExtensions.cs" />
+    <Compile Include="FixtureOrdering\Internal\InternalPropertyNames.cs" />
     <Compile Include="FixtureOrdering\Internal\IOrderedTestPart.cs" />
     <Compile Include="FixtureOrdering\Internal\OrderedTestRootSuite.cs" />
     <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixture.cs" />
     <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixtureBuilder.cs" />
     <Compile Include="FixtureOrdering\Internal\TestAssemblyOrderer.cs" />
     <Compile Include="FixtureOrdering\Internal\TestAssemblyOrderingContext.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestExecutionTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\TestHierarchyUtility.cs" />
     <Compile Include="FixtureOrdering\Internal\TestInfo.cs" />
     <Compile Include="FixtureOrdering\Internal\TestOrderingSpecificationDiscoverer.cs" />
     <Compile Include="FixtureOrdering\Internal\TestOrderingSpecificationTestPart.cs" />
     <Compile Include="FixtureOrdering\Internal\TestFixtureTestPart.cs" />
+    <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestTrackerDispatcher.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestTrackerDispatcher.tt</DependentUpon>
+    </Compile>
     <Compile Include="FixtureOrdering\OrderedTestFixtureAttribute.cs" />
     <Compile Include="FixtureOrdering\TestOrderingSpecification.cs" />
     <Compile Include="MethodOrdering\Attributes.cs" />
@@ -75,7 +90,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="FixtureOrdering\Internal\ExecutionTracking\TestTrackerDispatcher.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TestTrackerDispatcher.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,7 @@
 //  Project         : NUnitTestOrdering.Tests
 // ******************************************************************************
 
-namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierarchy.DeepOrderedTestFixtureFirst {
+namespace NUnitTestOrdering.Tests.TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash.DeepOrderedTestFixtureFirst {
     using FixtureOrdering;
 
     using NUnit.Framework;
@@ -21,7 +21,7 @@ namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierar
             this.TestFixture<Nest1TestThree>();
         }
 
-        protected override bool ContinueOnError => false;
+        protected override bool ContinueOnError => true;
     }
 
     [TestFixture]
