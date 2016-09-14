@@ -68,6 +68,7 @@
     <Compile Include="FixtureOrdering\Internal\OrderedTestRootSuite.cs" />
     <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixture.cs" />
     <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixtureBuilder.cs" />
+    <Compile Include="FixtureOrdering\Internal\SetUpFixtureValidator.cs" />
     <Compile Include="FixtureOrdering\Internal\TestAssemblyOrderer.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestExecutionTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\TestHierarchyUtility.cs" />

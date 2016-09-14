@@ -50,6 +50,8 @@ namespace NUnitTestOrdering.FixtureOrdering {
                 assembly = setUpFixture.TypeInfo.Assembly;
                 root = setUpFixture;
 
+                SetUpFixtureValidator.ValidateGlobalSetUpFixture(setUpFixture);
+
                 Trace.WriteLine("Note: Test assembly is using a SetUpFixture. Assuming SetUpFixture type is the test assembly.");
             } else {
                 assembly = testAssembly.Assembly;
