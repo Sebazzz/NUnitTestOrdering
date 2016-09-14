@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>NUnitTestOrdering</id>
+		<version>1.0</version>
+		<title>NUnit Test Ordering</title>
+		<authors>Sebastiaan Dammann</authors>
+		<owners>Sebastiaan Dammann</owners>
+		<copyright>Sebastiaan Dammann - Damsteen.nl 2016</copyright>
+		<licenseUrl>https://raw.githubusercontent.com/Sebazzz/NUnitTestOrdering/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/Sebazzz/NUnitTestOrdering</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/Sebazzz/NUnitTestOrdering/master/nuget/NUnitTestOrdering.png</iconUrl>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<description>Allows you to hierarchically order your entire (or part of) your NUnit test suite.</description>
+		<tags>NUnit Order</tags>
+		<releaseNotes>
+			<![CDATA[Version 1.0:
+	- Initial NuGet release]]>
+		</releaseNotes>
+		
+		<dependencies>
+			<!-- Since we rely on some details on how NUnit functions, lets keep it limited to minor versions. -->
+			<dependency id="NUnit" version="[3.4, 3.5)" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\build\Release\net46\NUnitTestOrdering.*" target="lib\net46" exclude="*.Tests.*" />
+		<file src="..\README.md" target=""/>
+	</files>
+
+</package>

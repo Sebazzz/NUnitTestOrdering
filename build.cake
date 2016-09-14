@@ -12,9 +12,10 @@ var verbosity = Argument<Verbosity>("verbosity", Verbosity.Minimal);
 
 var baseName = "NUnitTestOrdering";
 var buildDir = Directory("./build") + Directory(configuration);
-var assemblyInfoFile = Directory("./src") + File("CommonAssemblyInfo.cs");
+var assemblyInfoFile = Directory($"./src/{baseName}/Properties") + File("AssemblyInfo.cs");
 var dotCoverResultFile = buildDir + File("CoverageResults.dcvr");
-
+var nuspecPath = File($"./nuget/{baseName}.nuspec");
+var mainAssemblyVersion = (string) null;
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -79,6 +80,29 @@ Task("NuGet-Test")
 			Full = true
 		});
 });
+
+Task("NuGet-Get-Assembly-Version")
+	.Does(() => {
+		mainAssemblyVersion = ParseAssemblyInfo(assemblyInfoFile).AssemblyInformationalVersion;
+		
+		if (mainAssemblyVersion == null){
+			throw new CakeException($"Unable to find version for assembly via {assemblyInfoFile}");
+		}
+	});
+
+Task("NuGet-Pack")
+	.IsDependentOn("Build")
+	.IsDependentOn("NuGet-Get-Assembly-Version")
+	.Description("Packs up a NuGet package")
+	.Does(() => {
+		NuGetPack(
+			nuspecPath,
+			new NuGetPackSettings() {
+				OutputDirectory = buildDir,
+				Version = mainAssemblyVersion
+			}
+		);
+	});
 
 Task("TeamCity")
 	.IsDependentOn("Test");
