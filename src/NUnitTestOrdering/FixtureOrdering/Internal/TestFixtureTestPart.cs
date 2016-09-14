@@ -20,7 +20,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             this._type = type;
         }
 
-        public Test GetTest(TestAssemblyOrderingContext context) {
+        public Test GetTest(ITestAssemblyOrderingContext context) {
             Test theTest = context.FindAndRemove(this._type);
 
             if (theTest == null) {

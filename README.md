@@ -83,10 +83,15 @@ public sealed class Test {
 
 The main advantage of this is that you can explicitly name the dependency of your test method instead of using an opaque index number.
 
+### Using SetUpFixture
+NUnit SetUpFixture allows you to run code before and after all tests (if a SetUpFixture is defined in the global namespace), or run code before or after tests within the same namespace.
+
+The latter is not supported, but you can use a global SetUpFixture. Apply the OrderedTestGlobalSetUpFixtureAttribute to the fixture or your tests may end up running in the wrong order.
+
 ## Known issues
 Since this library can only work with whatever NUnit allows for extensibility, there are some limitations:
 
-- No SetupFixture support
+- Only global SetupFixture support: No namespace based SetUpFixture support
 - A single test can only be specified once in a test ordering
 
 Related to test runners:

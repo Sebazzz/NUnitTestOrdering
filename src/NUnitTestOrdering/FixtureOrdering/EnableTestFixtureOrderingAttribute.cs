@@ -7,6 +7,8 @@
 
 namespace NUnitTestOrdering.FixtureOrdering {
     using System;
+    using System.Diagnostics;
+    using System.Reflection;
 
     using Common;
 
@@ -21,8 +23,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     /// Apply this attribute to your assembly to enable test ordering
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
-    public sealed class EnableTestFixtureOrderingAttribute : NUnitAttribute, IApplyToTest, IApplyToContext, ITestAction {
-        private bool _cancelTest;
+    public sealed class EnableTestFixtureOrderingAttribute : OrderedTestGlobalSetUpFixtureAttribute, IApplyToTest, ITestAction {
         private readonly TestExecutionTracker _testExecutionTracker;
 
         /// <inheritdoc/>
@@ -33,28 +34,32 @@ namespace NUnitTestOrdering.FixtureOrdering {
         /// <inheritdoc />
         public void ApplyToTest(Test test) {
             TestAssembly testAssembly = test as TestAssembly;
+            Assembly assembly;
 
+            // When NUnit find a SetUpFixture it passes in the SetUpFixture,
+            // but the parent of the SetUpFixture is null. This means we really aren't
+            // able to determine the test assembly, except to assume that the SetUpFixture's type is in the test assembly
+            TestSuite root = testAssembly;
             if (testAssembly == null) {
-                throw new TestOrderingException($"Expected condition: input object {test} is not a {typeof(TestAssembly).FullName}");
+                SetUpFixture setUpFixture = test as SetUpFixture;
+
+                if (setUpFixture == null) {
+                    throw new TestOrderingException($"Expected condition: input object {test} is not a {typeof(TestAssembly).FullName} nor a {typeof(SetUpFixture).FullName}");
+                }
+
+                assembly = setUpFixture.TypeInfo.Assembly;
+                root = setUpFixture;
+
+                Trace.WriteLine("Note: Test assembly is using a SetUpFixture. Assuming SetUpFixture type is the test assembly.");
+            } else {
+                assembly = testAssembly.Assembly;
             }
 
-            TestAssemblyOrderer orderer = new TestAssemblyOrderer(testAssembly);
-            orderer.ApplyOrdering();
-        }
+            Debug.Assert(root != null);
+            Debug.Assert(assembly != null);
 
-        /// <inheritdoc />
-        public void ApplyToContext(TestExecutionContext context) {
-            // Note of the comment below: "execute" means in NUnit terms actually "discovering and scheduling
-            // work items _and_ execute them"
-
-            // We need to force NUnit to run single threaded. In this way, NUnit will "execute" ordered test
-            // fixtures immediately instead of scheduling the "execution" of the work items. By the way, in
-            // ordered tests we cannot have any parallelism anyway.
-
-            // The below statement has the unfortunate consequence the *entire* test assembly won't
-            // run in parallel, but if you care so much for that you might as well seperate your unordered
-            // (integration) tests to a seperate assembly.
-            context.IsSingleThreaded = true;
+            TestAssemblyOrderer orderer = new TestAssemblyOrderer(assembly, root);
+            orderer.OrderTests();
         }
 
         /// <inheritdoc />
@@ -62,30 +67,9 @@ namespace NUnitTestOrdering.FixtureOrdering {
             this._testExecutionTracker.HandleTestStart(test);
         }
 
-        private void BeforeTestCore(TestExecutionContext testContext) {
-            if (this._cancelTest) {
-                throw new InconclusiveException("A previous test has failed to complete");
-            }
-        }
-
         /// <inheritdoc />
         public void AfterTest(ITest test) {
             this._testExecutionTracker.TrackExecution(test);
-
-            TestContext currentTestContext = TestContext.CurrentContext;
-            if (currentTestContext == null) {
-                return;
-            }
-
-            this.AfterTestCore(test, currentTestContext);
-        }
-
-        private void AfterTestCore(ITest test, TestContext testContext) {
-            if (!testContext.Result.Outcome.Equals(ResultState.Success)) {
-                this._cancelTest = true;
-
-                TestContext.Progress.WriteLine($"Test {test.FullName} has failed. Subsequent tests will be skipped.");
-            }
         }
 
         /// <inheritdoc />

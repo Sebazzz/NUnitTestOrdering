@@ -18,7 +18,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             this._type = type;
         }
 
-        public Test GetTest(TestAssemblyOrderingContext context) {
+        public Test GetTest(ITestAssemblyOrderingContext context) {
             TestInfo existingTestInfo = context.TestsByType[this._type];
 
             return existingTestInfo != null ? OrderedTestFixtureExists(existingTestInfo) : this.UnregisteredOrderedTestFixture(context);
@@ -28,7 +28,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             return existingTestInfo.Test;
         }
 
-        private Test UnregisteredOrderedTestFixture(TestAssemblyOrderingContext context) {
+        private Test UnregisteredOrderedTestFixture(ITestAssemblyOrderingContext context) {
             OrderedTestSpecificationFixtureBuilder builder = new OrderedTestSpecificationFixtureBuilder(context);
             OrderedTestSpecificationFixture test = builder.BuildFrom(this._type);
 

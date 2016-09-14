@@ -8,9 +8,9 @@
     using NUnit.Framework.Internal;
 
     internal sealed class OrderedTestSpecificationFixtureBuilder {
-        private readonly TestAssemblyOrderingContext _context;
+        private readonly ITestAssemblyOrderingContext _context;
 
-        public OrderedTestSpecificationFixtureBuilder(TestAssemblyOrderingContext context) {
+        public OrderedTestSpecificationFixtureBuilder(ITestAssemblyOrderingContext context) {
             this._context = context;
         }
 

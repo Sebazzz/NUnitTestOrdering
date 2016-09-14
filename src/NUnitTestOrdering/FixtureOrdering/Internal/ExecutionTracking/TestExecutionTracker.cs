@@ -17,6 +17,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
     /// </summary>
     internal class TestExecutionTracker {
         private readonly TestTrackerDispatcher _testTrackerDispatcher;
+        private readonly object _syncRoot = new object();
 
         public TestExecutionTracker() {
             this._testTrackerDispatcher = new TestTrackerDispatcher(new TestExecutionTrackingContext());
@@ -39,7 +40,9 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
         }
 
         private void HandleTestStartCore(ITest test, TestExecutionContext executionContext) {
-            this._testTrackerDispatcher.HandleTestStart(test, executionContext);
+            lock (this._syncRoot) {
+                this._testTrackerDispatcher.HandleTestStart(test, executionContext);
+            }
         }
 
         /// <summary>
@@ -58,7 +61,9 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
         }
 
         private void TraceExecutionCore(ITest test, TestContext currentTestContext) {
-            this._testTrackerDispatcher.TrackExecution(test, currentTestContext);
+            lock (this._syncRoot) {
+                this._testTrackerDispatcher.TrackExecution(test, currentTestContext);
+            }
         }
     }
 }

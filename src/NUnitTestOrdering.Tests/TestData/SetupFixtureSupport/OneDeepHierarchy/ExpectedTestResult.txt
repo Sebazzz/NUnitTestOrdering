@@ -1,0 +1,14 @@
+﻿GlobalSetUpFixture.SetUp
+
+# Expect unordered tests to be executed before ordered tests
+NamespaceSetUpFixture.SetUp
+MyUnorderedTest.TestOne
+MyUnorderedTest.TestTwo
+NamespaceSetUpFixture.TearDown
+
+TestOne.DoTest
+TestTwo.PreTest
+TestTwo.DoTest
+TestThree.DoTest
+
+GlobalSetUpFixture.TearDown

@@ -129,6 +129,37 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
     [TestFixture]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public sealed partial class SetupFixtureSupport {
+        [Test]
+        //[StartDebugger]
+        public void OneDeepHierarchy() {
+            // Given
+            var input = TestDataDirectories.SetupFixtureSupport.OneDeepHierarchy();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+            
+            if (rawResultsDocument != null) {
+                OneDeepHierarchy_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void OneDeepHierarchy_AssertResultsFile(ResultsDocument testResults);
+
+    }
+
+    [TestFixture]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class TestExecution {
         [Test]
         public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot() {
@@ -452,6 +483,22 @@ namespace NUnitTestOrdering.Tests.TestData {
                         },
 
                     ExpectedResultFile = ThisAssemblyName + ".TestData.PlainFixtureOrdering.OneDeepHierarchy.ExpectedTestResult.txt"
+                };
+            }
+        }
+
+        public static class SetupFixtureSupport {
+            public static TestDataDirectory OneDeepHierarchy() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.SetupFixtureSupport.OneDeepHierarchy.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.SetupFixtureSupport.OneDeepHierarchy.GlobalSetUpFixture.cs",
+                             ThisAssemblyName + "." + "TestData.SetupFixtureSupport.OneDeepHierarchy.MyOrderedTest.cs",
+                             ThisAssemblyName + "." + "TestData.SetupFixtureSupport.OneDeepHierarchy.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.SetupFixtureSupport.OneDeepHierarchy.ExpectedTestResult.txt"
                 };
             }
         }
