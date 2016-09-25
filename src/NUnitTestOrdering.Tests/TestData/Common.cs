@@ -25,35 +25,40 @@ namespace NUnitTestOrdering.Tests.TestData {
         public const string PipeName = "_TEST_PIPENAME";
 
         private readonly NamedPipeClientStream _namedPipe;
-        private readonly StreamWriter _streamWriter;
+        private readonly TextWriter _logWriter;
 
         public Common() {
             string pipeName = TestContext.Parameters.Get("NAMEDPIPE") ?? Environment.GetEnvironmentVariable(PipeName, EnvironmentVariableTarget.Process);
 
             Console.WriteLine("Using pipe name: {0}", pipeName);
 
-            if (pipeName == null) throw new InvalidOperationException("Unable to find test pipe name");
+            // Pipename will be null when directly running tests from test assmebly runner
+            if (pipeName == null) {
+                this._logWriter = new StringWriter();
 
-            this._namedPipe = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
-            this._namedPipe.Connect();
-            
-            this._streamWriter = new StreamWriter(this._namedPipe, Encoding.UTF8);
+                TestContext.Out.WriteLine("Pipe name was not provided! Tests may fail!");
+            } else {
+                this._namedPipe = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
+                this._namedPipe.Connect();
+
+                this._logWriter = new StreamWriter(this._namedPipe, Encoding.UTF8);
+            }
 
             AppDomain.CurrentDomain.DomainUnload += (o, e) => {
-                this._streamWriter.Flush();
-                this._namedPipe.WaitForPipeDrain();
+                this._logWriter.Flush();
+                this._namedPipe?.WaitForPipeDrain();
 
-                this._streamWriter.Dispose();
-                this._namedPipe.Dispose();
+                this._logWriter.Dispose();
+                this._namedPipe?.Dispose();
             };
         }
 
         public void Log(string s) {
             TestContext.Out.WriteLine(s);
 
-            this._streamWriter.WriteLine(s);
-            this._streamWriter.Flush();
-            this._namedPipe.WaitForPipeDrain();
+            this._logWriter.WriteLine(s);
+            this._logWriter.Flush();
+            this._namedPipe?.WaitForPipeDrain();
         }
     }
 

@@ -52,7 +52,7 @@ namespace NUnitTestOrdering.Tests.Support {
             this._testDataDirectory = testDataDirectory;
             this._namedPipeName = Guid.NewGuid().ToString("N");
 
-            this._testAssemblyName = this._namedPipeName;
+            this._testAssemblyName = TestContext.CurrentContext.Test.FullName.Replace('.', '_');
             this._testAssemblyPath =
                 Path.Combine(
                     GetCurrentDirectory(),
@@ -65,12 +65,18 @@ namespace NUnitTestOrdering.Tests.Support {
             Environment.SetEnvironmentVariable("_TEST_PIPENAME", this._namedPipeName);
 
             this._startDebugger = TestContext.CurrentContext.Test.Properties.ContainsKey("StartDebugging");
+
+            this.CleanUp();
         }
 
         public void Dispose() {
             WriteArtifacts(this._testErrorPath, TestContext.Error);
             WriteArtifacts(this._testOutputPath, TestContext.Out);
 
+            //this.CleanUp();
+        }
+
+        private void CleanUp() {
             TryDelete(this._testAssemblyPath);
             TryDelete(this._testAssemblyPdbPath);
             TryDelete(this._testOutputPath);
@@ -226,7 +232,8 @@ namespace NUnitTestOrdering.Tests.Support {
                 FileName = process,
                 Arguments = $"\"{this._testAssemblyPath}\" --domain=Single \"--result={this._testResultPath};format=nunit3\" \"--out={this._testOutputPath}\"  \"--err={this._testErrorPath}\" --process=InProcess --verbose --full --workers=1 --params NAMEDPIPE={this._namedPipeName}",
                 WorkingDirectory = GetCurrentDirectory(),
-                CreateNoWindow = false
+                CreateNoWindow = false,
+                WindowStyle = ProcessWindowStyle.Minimized
             };
 
             if (this._startDebugger) startInfo.Arguments = $"\"{nunitPath}\" " + startInfo.Arguments;
