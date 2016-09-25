@@ -8,6 +8,7 @@
     internal sealed class OrderedTestRootSuite : TestSuite {
         public OrderedTestRootSuite(string name) : base(new TypeWrapper(typeof(SentinelType))) {
             this.Name = name;
+            this.FullName = name;
         }
     }
 

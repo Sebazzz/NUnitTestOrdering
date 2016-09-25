@@ -106,6 +106,8 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
                 }
             }
 
+            FullNameAssigner.AssignFullName(orderedTestRootSuite);
+
             this._rootFixture.Add(orderedTestRootSuite);
         }
 

@@ -62,6 +62,7 @@
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestFixtureExecutionTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestMethodExecutionTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestWrapper.cs" />
+    <Compile Include="FixtureOrdering\Internal\FullNameAssigner.cs" />
     <Compile Include="FixtureOrdering\Internal\InternalPropertyExtensions.cs" />
     <Compile Include="FixtureOrdering\Internal\InternalPropertyNames.cs" />
     <Compile Include="FixtureOrdering\Internal\IOrderedTestPart.cs" />
