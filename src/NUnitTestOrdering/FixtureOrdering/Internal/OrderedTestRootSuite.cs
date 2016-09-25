@@ -1,6 +1,5 @@
 ﻿namespace NUnitTestOrdering.FixtureOrdering.Internal {
     using System;
-    using System.Reflection;
 
     using NUnit.Framework.Interfaces;
     using NUnit.Framework.Internal;

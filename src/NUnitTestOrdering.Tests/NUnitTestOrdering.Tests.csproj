@@ -71,6 +71,7 @@
     <Compile Include="Common\Support\FakeDependency.cs" />
     <Compile Include="Common\DependencySorterTests.cs" />
     <Compile Include="Common\DependencyValidatorTests.cs" />
+    <Compile Include="FixtureOrdering\Internal\ReflectionUtilTests.cs" />
     <Compile Include="IntegrationTests\TestExecution.cs" />
     <Compile Include="Support\GlobalTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

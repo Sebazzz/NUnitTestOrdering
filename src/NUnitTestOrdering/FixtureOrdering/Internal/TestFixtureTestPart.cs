@@ -27,6 +27,12 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
                 throw new TestOrderingException($"Unable to find type of fixture type {this._type.FullName}");
             }
 
+            // Do some nice sorting
+            TestFixture fixtureTest = (TestFixture) theTest;
+            ReflectionUtil.SetMaintainTestOrder(fixtureTest);
+            ReflectionUtil.SortByOrder(fixtureTest);
+
+            // Register
             TestInfo testInfo = context.TestsByType[this._type];
             if (testInfo == null) {
                 testInfo = new TestInfo(theTest);
