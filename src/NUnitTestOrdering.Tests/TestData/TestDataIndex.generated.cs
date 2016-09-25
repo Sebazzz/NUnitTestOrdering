@@ -131,7 +131,6 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class SetupFixtureSupport {
         [Test]
-        //[StartDebugger]
         public void OneDeepHierarchy() {
             // Given
             var input = TestDataDirectories.SetupFixtureSupport.OneDeepHierarchy();
@@ -148,7 +147,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
             // Then
             Assert.That(result, Is.EqualTo(expectedResult));
-            
+
             if (rawResultsDocument != null) {
                 OneDeepHierarchy_AssertResultsFile(new ResultsDocument(rawResultsDocument));
             }
@@ -266,6 +265,31 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [TestFixture]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class TestIntegrity {
+        [Test]
+        public void ActionAttributeRunsOnEverything() {
+            // Given
+            var input = TestDataDirectories.TestIntegrity.ActionAttributeRunsOnEverything();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                ActionAttributeRunsOnEverything_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void ActionAttributeRunsOnEverything_AssertResultsFile(ResultsDocument testResults);
+
         [Test]
         public void OrderedWithOrderAttribute() {
             // Given
@@ -555,6 +579,16 @@ namespace NUnitTestOrdering.Tests.TestData {
         }
 
         public static class TestIntegrity {
+            public static TestDataDirectory ActionAttributeRunsOnEverything() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestIntegrity.ActionAttributeRunsOnEverything.Test.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestIntegrity.ActionAttributeRunsOnEverything.ExpectedTestResult.txt"
+                };
+            }
             public static TestDataDirectory OrderedWithOrderAttribute() {
                 return new TestDataDirectory {
                     Files = new [] {

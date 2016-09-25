@@ -107,6 +107,7 @@
     <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\DeepOrderedTestFixtureFirst.cs" />
     <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\DeepOrderedTestFixtureFirst_Child.cs" />
     <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestIntegrity\ActionAttributeRunsOnEverything\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\AssemblyInfo.cs" />
     <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\Test.cs" />
     <Compile Include="TestData\TestIntegrity\Single\Test.cs" />
@@ -120,6 +121,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="TestData\TestIntegrity\ActionAttributeRunsOnEverything\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithActionAttribute\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\Simple\ExpectedTestResult.txt" />

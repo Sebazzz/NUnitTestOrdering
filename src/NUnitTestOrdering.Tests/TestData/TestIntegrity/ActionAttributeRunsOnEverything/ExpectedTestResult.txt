@@ -1,0 +1,11 @@
+﻿# This is a simple test. If this test fails, something is wrong with gathering the test results.
+MyActionAttribute.BeforeTest
+MyActionAttribute.BeforeTest [Execute]
+UnorderedTest1.Execute
+MyActionAttribute.AfterTest [Execute]
+MyActionAttribute.BeforeTest [Execute]
+UnorderedTest2.Execute
+MyActionAttribute.AfterTest [Execute]
+MyActionAttribute.AfterTest
+
+# Yes, the order of the individual test fixtures in undefined. But we still need to assert something.

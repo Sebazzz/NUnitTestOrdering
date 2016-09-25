@@ -2,6 +2,8 @@
 
 This library allows you to use test ordering with NUnit. The primary use case is to allow integration tests to depend on each other. Don't use this library to order to unit tests, that's bad practice!
 
+[![Build status](https://ci.appveyor.com/api/projects/status/1ugsdmnkcpw5krh4?svg=true)](https://ci.appveyor.com/project/Sebazzz/nunittestordering)
+
 ## Features
 The library offers the following features:
 
