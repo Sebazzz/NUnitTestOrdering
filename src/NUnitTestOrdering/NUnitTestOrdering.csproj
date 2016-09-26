@@ -54,7 +54,7 @@
     <Compile Include="Common\IDependencyIndicator.cs" />
     <Compile Include="Common\NullableDictionary.cs" />
     <Compile Include="Common\TestOrderingException.cs" />
-    <Compile Include="FixtureOrdering\EnableTestFixtureOrderingAttribute.cs" />
+    <Compile Include="EnableTestOrderingAttribute.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\ExecutionUtility.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\ITestTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\OrderedTestSpecificationFixtureExecutionTracker.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="FixtureOrdering\Internal\OrderedTestSpecificationFixtureBuilder.cs" />
     <Compile Include="FixtureOrdering\Internal\ReflectionUtil.cs" />
     <Compile Include="FixtureOrdering\Internal\SetUpFixtureValidator.cs" />
-    <Compile Include="FixtureOrdering\Internal\TestAssemblyOrderer.cs" />
+    <Compile Include="FixtureOrdering\Internal\TestFixtureOrderer.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestExecutionTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\TestHierarchyUtility.cs" />
     <Compile Include="FixtureOrdering\Internal\TestInfo.cs" />
@@ -87,6 +87,10 @@
     <Compile Include="FixtureOrdering\TestOrderingSpecification.cs" />
     <Compile Include="MethodOrdering\Attributes.cs" />
     <Compile Include="MethodOrdering\TestMethodDependencyChainer.cs" />
+    <Compile Include="MethodOrdering\TestMethodOrderer.cs" />
+    <Compile Include="MethodOrdering\Internal\TestMethodOrdererApplier.cs" />
+    <Compile Include="MethodOrdering\TestMethodOrdererAttribute.cs" />
+    <Compile Include="MethodOrdering\TestOrderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

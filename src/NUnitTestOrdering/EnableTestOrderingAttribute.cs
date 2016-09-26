@@ -15,6 +15,8 @@ namespace NUnitTestOrdering.FixtureOrdering {
     using Internal;
     using Internal.ExecutionTracking;
 
+    using MethodOrdering.Internal;
+
     using NUnit.Framework;
     using NUnit.Framework.Interfaces;
     using NUnit.Framework.Internal;
@@ -23,11 +25,11 @@ namespace NUnitTestOrdering.FixtureOrdering {
     /// Apply this attribute to your assembly to enable test ordering
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly)]
-    public sealed class EnableTestFixtureOrderingAttribute : OrderedTestGlobalSetUpFixtureAttribute, IApplyToTest, ITestAction {
+    public sealed class EnableTestOrderingAttribute : OrderedTestGlobalSetUpFixtureAttribute, IApplyToTest, ITestAction {
         private readonly TestExecutionTracker _testExecutionTracker;
 
         /// <inheritdoc/>
-        public EnableTestFixtureOrderingAttribute() {
+        public EnableTestOrderingAttribute() {
             this._testExecutionTracker = new TestExecutionTracker();
         }
 
@@ -60,7 +62,12 @@ namespace NUnitTestOrdering.FixtureOrdering {
             Debug.Assert(root != null);
             Debug.Assert(assembly != null);
 
-            TestAssemblyOrderer orderer = new TestAssemblyOrderer(assembly, root);
+            ApplyOrdering(root, assembly);
+        }
+
+        private static void ApplyOrdering(TestSuite root, Assembly assembly) {
+            TestMethodOrdererApplier.DoOrderTestMethodsRecursive(root);
+            TestFixtureOrderer orderer = new TestFixtureOrderer(assembly, root);
             orderer.OrderTests();
         }
 

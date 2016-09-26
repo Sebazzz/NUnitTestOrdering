@@ -14,6 +14,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
     using Common;
 
     using NUnit.Framework;
+    using NUnit.Framework.Interfaces;
     using NUnit.Framework.Internal;
 
     internal interface ITestAssemblyOrderingContext {
@@ -21,7 +22,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
         Test FindAndRemove(Type type);
     }
 
-    internal class TestAssemblyOrderer : ITestAssemblyOrderingContext {
+    internal class TestFixtureOrderer : ITestAssemblyOrderingContext {
         private readonly Assembly _testAssembly;
         private readonly TestSuite _rootFixture;
 
@@ -49,7 +50,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             return null;
         }
 
-        public TestAssemblyOrderer(Assembly testAssembly, TestSuite rootFixture) {
+        public TestFixtureOrderer(Assembly testAssembly, TestSuite rootFixture) {
             this._testAssembly = testAssembly;
             this._rootFixture = rootFixture;
 
@@ -75,6 +76,17 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
         private void FixTestHierarchy() {
             this.AddUnorderedTestSuite();
             this.AddOrderedTestSuite();
+            this.ShrinkHierarchy();
+        }
+
+        private void ShrinkHierarchy() {
+            // If the root test is "Unordered" it will remove that test and keep hierarchy as-is
+            if (this._rootFixture.Tests.Count == 1) {
+                foreach (ITest test in this._rootFixture.Tests[0].Tests) {
+                    this._rootFixture.Tests.Add(test);
+                }
+                this._rootFixture.Tests.RemoveAt(0);
+            }
         }
 
         private void AddUnorderedTestSuite() {
@@ -108,7 +120,9 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
 
             FullNameAssigner.AssignFullName(orderedTestRootSuite);
 
-            this._rootFixture.Add(orderedTestRootSuite);
+            if (orderedTestRootSuite.HasChildren) {
+                this._rootFixture.Add(orderedTestRootSuite);
+            }
         }
 
         private void InitializeTestOrderingSpecs() {

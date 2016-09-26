@@ -24,7 +24,7 @@
     /// This attribute need to run once ordered testing begins. This happens for two reasons:
     /// - We don't necessarily need ordered tests to have <see cref="TestExecutionContext.IsSingleThreaded"/> being <c>false</c>
     /// - When the test assembly uses one or more <see cref="SetUpFixture"/>, then when <see cref="IApplyToContext"/> is implemented
-    ///   on an assembly-level attribute (<see cref="EnableTestFixtureOrderingAttribute"/>), it won't be called.
+    ///   on an assembly-level attribute (<see cref="EnableTestOrderingAttribute"/>), it won't be called.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class OrderedTestGlobalSetUpFixtureAttribute : Attribute, IApplyToContext {

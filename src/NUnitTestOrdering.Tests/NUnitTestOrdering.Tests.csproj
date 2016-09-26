@@ -73,12 +73,15 @@
     <Compile Include="Common\DependencyValidatorTests.cs" />
     <Compile Include="FixtureOrdering\Internal\ReflectionUtilTests.cs" />
     <Compile Include="IntegrationTests\TestExecution.cs" />
+    <Compile Include="MethodOrdering\TestOrdererType.cs" />
     <Compile Include="Support\GlobalTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\ResultsDocument.cs" />
     <Compile Include="Support\StartDebugger.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
+    <Compile Include="TestData\MethodOrdering\UsingTestOrderer\AssemblyInfo.cs" />
+    <Compile Include="TestData\MethodOrdering\UsingTestOrderer\Tests.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\AssemblyInfo.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\AssemblyInfo.cs" />
@@ -129,6 +132,7 @@
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer\ExpectedTestResult.txt" />
     <Content Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\Readme.txt" />

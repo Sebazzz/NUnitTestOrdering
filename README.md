@@ -52,6 +52,9 @@ You may also add methods decorated with `OneTimeSetupAttribute` and `OneTimeTear
 Please also view the samples [in the tests](src/NUnitTestOrdering.Tests/TestData) of various use cases showing how to use this library.
 
 ### Test Method ordering
+There are two ways you can use to order test methods within a test fixture.
+
+#### By specifying dependencies
 Similar to NUnit `OrderAttribute` you can use attributes to explicitly define the dependencies of a test method. Apply a `TestMethodDependencyAttribute` to your test methods which require another test method to run before. Apply a `TestMethodWithoutDependencyAttribute` to test methods which don't have dependencies and may run first.
 
 ``` C#
@@ -84,6 +87,29 @@ public sealed class Test {
 ```
 
 The main advantage of this is that you can explicitly name the dependency of your test method instead of using an opaque index number.
+
+#### By using an orderer class
+Especially useful for auto-generated class fixtures, for example by the great [SpecFlow](http://www.specflow.org/) framework, you can specify an "test orderer" class to apply to your test. Simply derive a class from `TestMethodOrderer` and register it using the `TestMethodOrdererAttribute` to your class. 
+
+Example below:
+
+``` C#
+[TestFixture]
+[TestMethodOrderer(typeof(Orderer))]
+partial class MySpecFlowFeature {
+    private sealed class Orderer : TestOrderer<Tests> {
+        protected override void DefineOrdering() {
+            TestMethod(nameof(TheFirstTest));
+
+            TestMethod(x => x.ShouldExecuteSecond()); // Alternate syntax
+
+            TestMethod(nameof(LastOne));
+        }
+    }
+}
+```
+
+Note you shouldn't mix using "orderer classess" and specifying dependencies within the same test fixture!
 
 ### Using SetUpFixture
 NUnit SetUpFixture allows you to run code before and after all tests (if a SetUpFixture is defined in the global namespace), or run code before or after tests within the same namespace.

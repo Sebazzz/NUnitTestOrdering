@@ -7,4 +7,4 @@
 
 using NUnitTestOrdering.FixtureOrdering;
 
-[assembly:EnableTestFixtureOrdering]
+[assembly:EnableTestOrdering]

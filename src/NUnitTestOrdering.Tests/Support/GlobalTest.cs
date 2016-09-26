@@ -14,13 +14,13 @@ namespace NUnitTestOrdering.Tests.Support {
     using System.Threading;
     using System.Xml.Linq;
 
-    using MethodOrdering;
-
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.Emit;
 
     using NUnit.Framework;
+
+    using NUnitTestOrdering.MethodOrdering;
 
     using TestData;
 

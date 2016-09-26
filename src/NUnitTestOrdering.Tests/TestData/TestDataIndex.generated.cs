@@ -45,6 +45,31 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
         partial void Simple_AssertResultsFile(ResultsDocument testResults);
 
+        [Test]
+        public void UsingTestOrderer() {
+            // Given
+            var input = TestDataDirectories.MethodOrdering.UsingTestOrderer();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                UsingTestOrderer_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void UsingTestOrderer_AssertResultsFile(ResultsDocument testResults);
+
     }
 
     [TestFixture]
@@ -469,6 +494,17 @@ namespace NUnitTestOrdering.Tests.TestData {
                         },
 
                     ExpectedResultFile = ThisAssemblyName + ".TestData.MethodOrdering.Simple.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory UsingTestOrderer() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.MethodOrdering.UsingTestOrderer.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.MethodOrdering.UsingTestOrderer.Tests.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.MethodOrdering.UsingTestOrderer.ExpectedTestResult.txt"
                 };
             }
         }
