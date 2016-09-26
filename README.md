@@ -24,6 +24,8 @@ Include the library into your project and include this in your AssemblyInfo file
 
 Now you can start writing ordered tests. You can order both test fixtures and the methods within fixtures themselves.
 
+**Note:** If you use the NuGet package this has already been arranged for you!
+
 ### Test Fixture ordering
 In order to set-up fixture ordering, derive a class from `TestOrderingSpecification`. Decorate your new class with the `OrderedTestFixtureAttribute`. Override and implement the `DefineTestOrdering` method.
 

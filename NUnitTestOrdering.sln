@@ -15,6 +15,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{C0DF9649-D
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{77364EAA-9360-4617-AD71-AFFDDDE8D9DC}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\NUnitTestOrdering.nuspec = nuget\NUnitTestOrdering.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{E82151E1-46E2-401A-A951-EF86CDE094E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Properties", "Properties", "{057A60C5-91D6-4363-B4CB-A16958602AE2}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\content\Properties\EnableTestOrdering.cs = nuget\content\Properties\EnableTestOrdering.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +48,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2B5D82D8-DAA7-4D47-BD97-B70C5135EB1D} = {5D8E752C-FF6F-45E8-A2A3-B3A1711BD855}
 		{AAFFEF62-8644-4AA6-8E89-DABCAC6DB523} = {5D8E752C-FF6F-45E8-A2A3-B3A1711BD855}
+		{E82151E1-46E2-401A-A951-EF86CDE094E3} = {77364EAA-9360-4617-AD71-AFFDDDE8D9DC}
+		{057A60C5-91D6-4363-B4CB-A16958602AE2} = {E82151E1-46E2-401A-A951-EF86CDE094E3}
 	EndGlobalSection
 EndGlobal

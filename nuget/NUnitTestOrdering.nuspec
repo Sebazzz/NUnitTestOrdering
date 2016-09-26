@@ -25,6 +25,7 @@
 	</metadata>
 	<files>
 		<file src="..\build\Release\net46\NUnitTestOrdering.*" target="lib\net46" exclude="**\NUnitTestOrdering.Tests.*" />
+		<file src="content\Properties\EnableTestOrdering.cs" target="content\Properties" />
 		<file src="..\README.md" target=""/>
 	</files>
 
