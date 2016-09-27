@@ -15,7 +15,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
     partial class TestExecution {
         partial void Fail_OneDeepHierarchy_OtherTestsSkipped_AssertResultsFile(ResultsDocument testResults) {
-            string baseName = "Ordered.RootOrderedTestFixture";
+            const string baseName = "Ordered.RootOrderedTestFixture";
 
             Assert.That(testResults.GetTestResult(baseName + ".TestOne"), Is.EqualTo(TestStatus.Passed));
             Assert.That(testResults.GetTestResult(baseName + ".TestTwo"), Is.EqualTo(TestStatus.Failed));
@@ -24,7 +24,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         }
 
         partial void Fail_OneDeepHierarchy_OtherTestsRun_AssertResultsFile(ResultsDocument testResults) {
-            string baseName = "Ordered.RootOrderedTestFixture";
+            const string baseName = "Ordered.RootOrderedTestFixture";
 
             Assert.That(testResults.GetTestResult(baseName + ".TestOne"), Is.EqualTo(TestStatus.Passed));
             Assert.That(testResults.GetTestResult(baseName + ".TestTwo"), Is.EqualTo(TestStatus.Failed));

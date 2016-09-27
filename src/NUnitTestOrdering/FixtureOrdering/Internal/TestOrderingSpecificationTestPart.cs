@@ -18,17 +18,11 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             this._type = type;
         }
 
-        public Test GetTest(ITestAssemblyOrderingContext context) {
-            TestInfo existingTestInfo = context.TestsByType[this._type];
-
-            return existingTestInfo != null ? OrderedTestFixtureExists(existingTestInfo) : this.UnregisteredOrderedTestFixture(context);
+        public Test GetTest(TestHierarchyContext context) {
+            return this.UnregisteredOrderedTestFixture(context);
         }
 
-        private static Test OrderedTestFixtureExists(TestInfo existingTestInfo) {
-            return existingTestInfo.Test;
-        }
-
-        private Test UnregisteredOrderedTestFixture(ITestAssemblyOrderingContext context) {
+        private Test UnregisteredOrderedTestFixture(TestHierarchyContext context) {
             OrderedTestSpecificationFixtureBuilder builder = new OrderedTestSpecificationFixtureBuilder(context);
             OrderedTestSpecificationFixture test = builder.BuildFrom(this._type);
 

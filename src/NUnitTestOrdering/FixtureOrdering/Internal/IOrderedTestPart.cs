@@ -8,6 +8,6 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
     using NUnit.Framework.Internal;
 
     internal interface IOrderedTestPart {
-        Test GetTest(ITestAssemblyOrderingContext context);
+        Test GetTest(TestHierarchyContext context);
     }
 }

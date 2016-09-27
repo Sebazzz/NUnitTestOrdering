@@ -15,7 +15,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     using Internal;
 
     /// <summary>
-    /// Base class for classes which specify 
+    /// Defines an order to run tests in
     /// </summary>
     public abstract class TestOrderingSpecification {
         private readonly List<IOrderedTestPart> _parts;

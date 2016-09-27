@@ -74,7 +74,6 @@
     <Compile Include="FixtureOrdering\Internal\TestFixtureOrderer.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\TestExecutionTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\TestHierarchyUtility.cs" />
-    <Compile Include="FixtureOrdering\Internal\TestInfo.cs" />
     <Compile Include="FixtureOrdering\Internal\TestOrderingSpecificationDiscoverer.cs" />
     <Compile Include="FixtureOrdering\Internal\TestOrderingSpecificationTestPart.cs" />
     <Compile Include="FixtureOrdering\Internal\TestFixtureTestPart.cs" />

@@ -8,9 +8,9 @@
 namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.NestedDeepHierarchy {
     using DeepOrderedTestFixtureFirst;
 
-    using FixtureOrdering;
-
     using NUnit.Framework;
+
+    using NUnitTestOrdering.FixtureOrdering;
 
     [OrderedTestFixture]
     public sealed class RootOrderedTestFixture : TestOrderingSpecification {

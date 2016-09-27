@@ -53,6 +53,13 @@ You may also add methods decorated with `OneTimeSetupAttribute` and `OneTimeTear
 
 Please also view the samples [in the tests](src/NUnitTestOrdering.Tests/TestData) of various use cases showing how to use this library.
 
+#### Using the OrderedTestFixture attribute
+When you use the `OrderedTestFixtureAttribute` on a `TestOrderingSpecification`, it will cause the specified test ordering specification to become available "in the root" of the ordered test suite. 
+
+In this way you can multiple suites of ordered tests to run. You can reference the same test fixture in multiple hierarchies of ordered tests. You can also refer the same test ordering specification in multiple hierarchies, as long as you don't cause a cyclic reference.
+
+Note that different multiple suites of ordered tests are meant to be used for different use cases. If you need some test to run before another test, just because the test is setting things up you should probably use NUnit built-in action attributes.
+
 ### Test Method ordering
 There are two ways you can use to order test methods within a test fixture.
 

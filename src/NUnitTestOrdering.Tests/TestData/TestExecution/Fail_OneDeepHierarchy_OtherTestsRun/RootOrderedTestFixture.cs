@@ -6,9 +6,9 @@
 // ******************************************************************************
 
 namespace NUnitTestOrdering.Tests.TestData.PlainFixtureOrdering.Fail_OneDeepHierarchy_OtherTestsRun {
-    using FixtureOrdering;
-
     using NUnit.Framework;
+
+    using NUnitTestOrdering.FixtureOrdering;
 
     [OrderedTestFixture]
     public sealed class RootOrderedTestFixture : TestOrderingSpecification {

@@ -8,9 +8,9 @@
 namespace NUnitTestOrdering.Tests.TestData.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot {
     using DeepOrderedTestFixtureFirst;
 
-    using FixtureOrdering;
-
     using NUnit.Framework;
+
+    using NUnitTestOrdering.FixtureOrdering;
 
     [OrderedTestFixture]
     public sealed class RootOrderedTestFixture : TestOrderingSpecification {

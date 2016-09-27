@@ -74,6 +74,36 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
     [TestFixture]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public sealed partial class MultipleFixtureSupport {
+        [Test]
+        public void Simple() {
+            // Given
+            var input = TestDataDirectories.MultipleFixtureSupport.Simple();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                Simple_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void Simple_AssertResultsFile(ResultsDocument testResults);
+
+    }
+
+    [TestFixture]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class PlainFixtureOrdering {
         [Test]
         public void HierarchySetupTeardown() {
@@ -505,6 +535,20 @@ namespace NUnitTestOrdering.Tests.TestData {
                         },
 
                     ExpectedResultFile = ThisAssemblyName + ".TestData.MethodOrdering.UsingTestOrderer.ExpectedTestResult.txt"
+                };
+            }
+        }
+
+        public static class MultipleFixtureSupport {
+            public static TestDataDirectory Simple() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.MultipleFixtureSupport.Simple.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.MultipleFixtureSupport.Simple.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.MultipleFixtureSupport.Simple.ExpectedTestResult.txt"
                 };
             }
         }

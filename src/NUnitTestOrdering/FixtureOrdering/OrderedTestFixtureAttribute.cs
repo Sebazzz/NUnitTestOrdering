@@ -8,8 +8,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
     using System;
 
     /// <summary>
-    /// In order to order test fixtures, derive a class from <see cref="TestOrderingSpecification"/>
-    /// and decorate it with this attribute.
+    /// Marks "root" test ordering specifications, which have no other parents. To order test fixtures, derive a class from <see cref="TestOrderingSpecification"/> and decorate it with this attribute. 
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public sealed class OrderedTestFixtureAttribute : Attribute {}

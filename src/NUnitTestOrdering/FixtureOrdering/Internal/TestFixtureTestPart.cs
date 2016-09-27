@@ -20,8 +20,8 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             this._type = type;
         }
 
-        public Test GetTest(ITestAssemblyOrderingContext context) {
-            Test theTest = context.FindAndRemove(this._type);
+        public Test GetTest(TestHierarchyContext context) {
+            Test theTest = context.TestRepository.Get(this._type);
 
             if (theTest == null) {
                 throw new TestOrderingException($"Unable to find type of fixture type {this._type.FullName}");
@@ -31,13 +31,6 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             TestFixture fixtureTest = (TestFixture) theTest;
             ReflectionUtil.SetMaintainTestOrder(fixtureTest);
             ReflectionUtil.SortByOrder(fixtureTest);
-
-            // Register
-            TestInfo testInfo = context.TestsByType[this._type];
-            if (testInfo == null) {
-                testInfo = new TestInfo(theTest);
-                context.TestsByType[this._type] = testInfo;
-            }
 
             return theTest;
         }

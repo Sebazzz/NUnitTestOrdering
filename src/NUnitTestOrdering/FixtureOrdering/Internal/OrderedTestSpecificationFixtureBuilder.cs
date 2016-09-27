@@ -1,5 +1,6 @@
 ﻿namespace NUnitTestOrdering.FixtureOrdering.Internal {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
 
     using Common;
@@ -8,33 +9,33 @@
     using NUnit.Framework.Internal;
 
     internal sealed class OrderedTestSpecificationFixtureBuilder {
-        private readonly ITestAssemblyOrderingContext _context;
+        private readonly TestHierarchyContext _context;
 
-        public OrderedTestSpecificationFixtureBuilder(ITestAssemblyOrderingContext context) {
+        public OrderedTestSpecificationFixtureBuilder(TestHierarchyContext context) {
             this._context = context;
         }
 
         public OrderedTestSpecificationFixture BuildFrom(Type type) {
-            OrderedTestSpecificationFixture orderedTestFixture = new OrderedTestSpecificationFixture(new TypeWrapper(type));
+            using (this.CreateScope(type)) {
+                OrderedTestSpecificationFixture orderedTestFixture = new OrderedTestSpecificationFixture(new TypeWrapper(type));
 
-            this.EnsureNotRegistered(type);
+                try {
+                    this.AddPartsToFixture(orderedTestFixture, type);
+                } catch (Exception ex) {
+                    orderedTestFixture.RunState = RunState.NotRunnable;
+                    orderedTestFixture.Properties.Set(PropertyNames.SkipReason, ex.ToString());
+                }
 
-            this._context.TestsByType[type] = new TestInfo(orderedTestFixture);
-
-            try {
-                this.AddPartsToFixture(orderedTestFixture, type);
-            } catch (Exception ex) {
-                orderedTestFixture.RunState = RunState.NotRunnable;
-                orderedTestFixture.Properties.Set(PropertyNames.SkipReason, ex.ToString());
+                return orderedTestFixture;
             }
-
-            return orderedTestFixture;
         }
 
-        private void EnsureNotRegistered(Type type) {
-            TestInfo existingRegistration = this._context.TestsByType[type];
-            if (existingRegistration != null) {
-                throw new TestOrderingException($"Ordered test specification {type} is already registered. It has {existingRegistration.PartOf?.FullName ?? "no parent"} as parent");
+        private IDisposable CreateScope(Type type) {
+            try {
+                return this._context.EnterHierarchy(type);
+            }
+            catch (Exception ex) {
+                throw new TestOrderingException($"Ordered test specification {type} is already registered within the same line of ancestors", ex);
             }
         }
 
@@ -48,24 +49,19 @@
                 return;
             }
 
+            HashSet<string> names = new HashSet<string>(StringComparer.Ordinal);
+                
             int order = 0;
             foreach (IOrderedTestPart part in testInfo.Parts) {
                 Test test = part.GetTest(this._context);
-                
-                if (test.TypeInfo != null) {
-                    TestInfo registration = this._context.TestsByType[test.TypeInfo.Type];
 
-                    Debug.Assert(registration != null);
-                    registration.SetPartOf(orderedTestFixture);
+                if (!names.Add(test.Name)) {
+                    throw new InvalidOperationException($"Test {test.Name} already exists on the same level of tests: {String.Join(";", names)}");
                 }
 
                 orderedTestFixture.Add(test);
                 test.Properties.Set(PropertyNames.Order, order++);
             }
-        }
-
-        public bool IsStillUnregistered(Type type) {
-            return !this._context.TestsByType.ContainsKey(type);
         }
     }
 }

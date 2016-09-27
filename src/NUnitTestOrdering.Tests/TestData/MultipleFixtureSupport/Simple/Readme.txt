@@ -1,0 +1,1 @@
+﻿This tests the behavior of the same test fixture specified multiple times in a test suite.
