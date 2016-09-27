@@ -15,6 +15,7 @@ var buildDir = Directory("./build") + Directory(configuration);
 var assemblyInfoFile = Directory($"./src/{baseName}/Properties") + File("AssemblyInfo.cs");
 var dotCoverResultFile = buildDir + File("CoverageResults.dcvr");
 var nuspecPath = File($"./nuget/{baseName}.nuspec");
+var testResultsFile = buildDir + File("NUnitTestResults.xml");
 var mainAssemblyVersion = (string) null;
 
 //////////////////////////////////////////////////////////////////////
@@ -56,9 +57,10 @@ Task("Test")
 				tool.NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
 					NoHeader = true,
 					NoColor = false,
-					TeamCity = TeamCity.IsRunningOnTeamCity,
-					OutputFile = buildDir + File("NUnitTestResults.xml"),
-					Full = true
+					Verbose = true,
+					Results = testResultsFile,
+					Full = true,
+					ResultFormat = AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : "nunit3"
 				});
 			},
 			dotCoverResultFile,
@@ -75,13 +77,20 @@ Task("NuGet-Test")
 		NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
 			NoHeader = true,
 			NoColor = false,
-			TeamCity = TeamCity.IsRunningOnTeamCity,
-			OutputFile = buildDir + File("NUnitTestResults.xml"),
-			Full = true
+			Verbose = true,
+			Results = testResultsFile,
+			Full = true,
+			ResultFormat = AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : "nunit3"
 		});
 });
 
+Task("NuGet-Git-UpdateAssemblyInfo")
+    .Does(() =>  {
+    GitVersion(); // TODO: use this for nuspec
+});
+
 Task("NuGet-Get-Assembly-Version")
+	.IsDependentOn("NuGet-Git-UpdateAssemblyInfo")
 	.Does(() => {
 		mainAssemblyVersion = ParseAssemblyInfo(assemblyInfoFile).AssemblyInformationalVersion;
 		
@@ -103,9 +112,23 @@ Task("NuGet-Pack")
 			}
 		);
 	});
+	
+Task("AppVeyor-Test")
+	.IsDependentOn("Test")
+	.Does(() => {
+		var jobId = EnvironmentVariable("APPVEYOR_JOB_ID");
+		var resultsType = "nunit3";
+		
+		var wc = new System.Net.WebClient();
+		var url = $"https://ci.appveyor.com/api/testresults/{resultsType}/{jobId}";
+		var fullTestResultsPath = MakeAbsolute(testResultsFile).FullPath;
+		
+		Information("Uploading test results from {0} to {1}", fullTestResultsPath, url);
+		wc.UploadFile(url, fullTestResultsPath);
+	});
 
-Task("TeamCity")
-	.IsDependentOn("Test");
+Task("AppVeyor")
+	.IsDependentOn("AppVeyor-Test");
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
