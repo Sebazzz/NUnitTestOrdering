@@ -60,7 +60,7 @@ Task("Test")
 					Verbose = true,
 					Results = testResultsFile,
 					Full = true,
-					ResultFormat = AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : "nunit3"
+					ResultFormat = /*AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : */"nunit3"
 				});
 			},
 			dotCoverResultFile,
@@ -80,7 +80,7 @@ Task("NuGet-Test")
 			Verbose = true,
 			Results = testResultsFile,
 			Full = true,
-			ResultFormat = AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : "nunit3"
+			ResultFormat = /*AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : */"nunit3"
 		});
 });
 
