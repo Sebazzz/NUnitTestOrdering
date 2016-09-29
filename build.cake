@@ -52,7 +52,7 @@ Task("Test")
     .IsDependentOn("Build")
 	.Description("Run all unit tests - under code coverage")
     .Does(() => {
-        DotCoverAnalyse(
+        DotCoverCover(
 			tool => {
 				tool.NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
 					NoHeader = true,
@@ -64,9 +64,10 @@ Task("Test")
 				});
 			},
 			dotCoverResultFile,
-			new DotCoverAnalyseSettings () 
+			new DotCoverCoverSettings () 
 				.WithFilter($"+:{baseName}")
 				.WithFilter("-:*.Tests")
+				.WithAttributeFilter("-:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute")
         );
 });
 
