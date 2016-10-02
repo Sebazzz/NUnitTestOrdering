@@ -23,6 +23,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0-alpha.2+10.Branch.master.Sha.3f8021af0d892d08211c5aa1b4fe9906ada2c768")]
+[assembly: AssemblyInformationalVersion("1.0.0.0-alpha2")]
 
 [assembly: InternalsVisibleTo("NUnitTestOrdering.Tests")]
