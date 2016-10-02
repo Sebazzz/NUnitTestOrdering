@@ -20,7 +20,7 @@ Download the current prerelease from [NuGet](https://www.nuget.org/packages/NUni
 
     Install-Package NUnitTestOrdering -Pre
     
-Or [download and compile](#Building) build the binaries yourself.
+Or [download and compile](#building) build the binaries yourself.
 
 ## Usage
 
