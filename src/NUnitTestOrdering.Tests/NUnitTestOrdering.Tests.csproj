@@ -82,6 +82,8 @@
     <Compile Include="Support\StartDebugger.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
+    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\AssemblyInfo.cs" />
+    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\Tests.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\AssemblyInfo.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\Tests.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer\AssemblyInfo.cs" />
@@ -141,6 +143,7 @@
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MultipleFixtureSupport\Simple\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
     <Content Include="TestData\MultipleFixtureSupport\Simple\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />

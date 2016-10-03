@@ -98,6 +98,10 @@ namespace NUnitTestOrdering.Tests.TestData {
                }
            }
 
+           if (resultsFile.Length == 0){
+               return String.Empty;
+           }
+
            resultsFile.Remove(resultsFile.Length - Environment.NewLine.Length, Environment.NewLine.Length);
            return resultsFile.ToString();
        }
