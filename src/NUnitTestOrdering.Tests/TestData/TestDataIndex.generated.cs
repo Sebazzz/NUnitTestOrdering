@@ -70,6 +70,31 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
         partial void UsingTestOrderer_AssertResultsFile(ResultsDocument testResults);
 
+        [Test]
+        public void UsingTestOrderer_OnException_MarksFixtureAsNotRunnable() {
+            // Given
+            var input = TestDataDirectories.MethodOrdering.UsingTestOrderer_OnException_MarksFixtureAsNotRunnable();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                UsingTestOrderer_OnException_MarksFixtureAsNotRunnable_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void UsingTestOrderer_OnException_MarksFixtureAsNotRunnable_AssertResultsFile(ResultsDocument testResults);
+
     }
 
     [TestFixture]
@@ -506,6 +531,10 @@ namespace NUnitTestOrdering.Tests.TestData {
                }
            }
 
+           if (resultsFile.Length == 0) {
+               return String.Empty;
+           }
+
            resultsFile.Remove(resultsFile.Length - Environment.NewLine.Length, Environment.NewLine.Length);
            return resultsFile.ToString();
        }
@@ -535,6 +564,17 @@ namespace NUnitTestOrdering.Tests.TestData {
                         },
 
                     ExpectedResultFile = ThisAssemblyName + ".TestData.MethodOrdering.UsingTestOrderer.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory UsingTestOrderer_OnException_MarksFixtureAsNotRunnable() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.MethodOrdering.UsingTestOrderer_OnException_MarksFixtureAsNotRunnable.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.MethodOrdering.UsingTestOrderer_OnException_MarksFixtureAsNotRunnable.Tests.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.MethodOrdering.UsingTestOrderer_OnException_MarksFixtureAsNotRunnable.ExpectedTestResult.txt"
                 };
             }
         }

@@ -72,6 +72,7 @@
     <Compile Include="Common\DependencySorterTests.cs" />
     <Compile Include="Common\DependencyValidatorTests.cs" />
     <Compile Include="FixtureOrdering\Internal\ReflectionUtilTests.cs" />
+    <Compile Include="IntegrationTests\MethodOrdering.cs" />
     <Compile Include="IntegrationTests\MultipleFixtureSupport.cs" />
     <Compile Include="IntegrationTests\TestExecution.cs" />
     <Compile Include="MethodOrdering\TestOrdererType.cs" />
@@ -81,6 +82,8 @@
     <Compile Include="Support\StartDebugger.cs" />
     <Compile Include="TestData\Common.cs" />
     <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
+    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\AssemblyInfo.cs" />
+    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\Tests.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer\AssemblyInfo.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer\Tests.cs" />
     <Compile Include="TestData\MultipleFixtureSupport\Simple\AssemblyInfo.cs" />
@@ -137,6 +140,7 @@
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MultipleFixtureSupport\Simple\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
     <Content Include="TestData\MultipleFixtureSupport\Simple\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />

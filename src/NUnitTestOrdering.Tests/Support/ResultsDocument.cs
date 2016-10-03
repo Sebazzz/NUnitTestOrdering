@@ -38,6 +38,25 @@ namespace NUnitTestOrdering.Tests.Support {
             return (TestStatus) Enum.Parse(typeof(TestStatus), resultString);
         }
 
+        public string GetFailureMessage(string test) {
+            XElement testElement = this.GetTestElement(test);
+
+            string resultString = (string)testElement.Element("failure")?.Element("message");
+
+            return resultString;
+        }
+
+        public RunState GetRunState(string test) {
+            XElement testElement = this.GetTestElement(test);
+
+            string resultString = (string)testElement.Attribute("runstate");
+            if (resultString == null) {
+                Assert.Fail("Unable to find runstate attribute for test {1} in node: {0}", testElement, test);
+            }
+
+            return (RunState)Enum.Parse(typeof(RunState), resultString);
+        }
+
         private XElement GetTestElement(string test) {
             string[] parts = test.Split('.');
 
