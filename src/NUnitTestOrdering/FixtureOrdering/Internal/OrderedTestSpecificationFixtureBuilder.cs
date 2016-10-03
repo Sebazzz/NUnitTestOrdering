@@ -49,19 +49,36 @@
                 return;
             }
 
-            HashSet<string> names = new HashSet<string>(StringComparer.Ordinal);
+            Dictionary<string, TestInfo> names = new Dictionary<string, TestInfo>(StringComparer.Ordinal);
                 
             int order = 0;
             foreach (IOrderedTestPart part in testInfo.Parts) {
                 Test test = part.GetTest(this._context);
 
-                if (!names.Add(test.Name)) {
-                    throw new InvalidOperationException($"Test {test.Name} already exists on the same level of tests: {String.Join(";", names)}");
-                }
+                TestInfo existingTestInfo;
+                if (names.TryGetValue(test.Name, out existingTestInfo)) {
+                    Debug.WriteLine($"Test {test.MethodName} already exists on the same level of tests: {String.Join(";", names)}. Renaming tests.");
 
+                    // Rename existing test
+                    if (existingTestInfo.TestCount == 1) existingTestInfo.Test.Name += $"[{existingTestInfo.TestCount - 1}]";
+                    existingTestInfo.TestCount++;
+
+                    test.Name += $"[{existingTestInfo.TestCount - 1}]";
+                } else {
+                    names.Add(test.Name, new TestInfo {
+                        Test = test,
+                        TestCount = 1
+                    });
+                }
+                
                 orderedTestFixture.Add(test);
                 test.Properties.Set(PropertyNames.Order, order++);
             }
+        }
+
+        private sealed class TestInfo {
+            public Test Test { get; set; }
+            public int TestCount { get; set; }
         }
     }
 }

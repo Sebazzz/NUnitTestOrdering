@@ -126,6 +126,31 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class MultipleFixtureSupport {
         [Test]
+        public void SameLevel() {
+            // Given
+            var input = TestDataDirectories.MultipleFixtureSupport.SameLevel();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                SameLevel_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void SameLevel_AssertResultsFile(ResultsDocument testResults);
+
+        [Test]
         public void Simple() {
             // Given
             var input = TestDataDirectories.MultipleFixtureSupport.Simple();
@@ -616,6 +641,17 @@ namespace NUnitTestOrdering.Tests.TestData {
         }
 
         public static class MultipleFixtureSupport {
+            public static TestDataDirectory SameLevel() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.MultipleFixtureSupport.SameLevel.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.MultipleFixtureSupport.SameLevel.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.MultipleFixtureSupport.SameLevel.ExpectedTestResult.txt"
+                };
+            }
             public static TestDataDirectory Simple() {
                 return new TestDataDirectory {
                     Files = new [] {

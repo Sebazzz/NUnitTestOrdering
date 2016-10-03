@@ -88,6 +88,8 @@
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\Tests.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer\AssemblyInfo.cs" />
     <Compile Include="TestData\MethodOrdering\UsingTestOrderer\Tests.cs" />
+    <Compile Include="TestData\MultipleFixtureSupport\SameLevel\AssemblyInfo.cs" />
+    <Compile Include="TestData\MultipleFixtureSupport\SameLevel\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\MultipleFixtureSupport\Simple\AssemblyInfo.cs" />
     <Compile Include="TestData\MultipleFixtureSupport\Simple\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\AssemblyInfo.cs" />
@@ -144,6 +146,8 @@
     <EmbeddedResource Include="TestData\MultipleFixtureSupport\Simple\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\MultipleFixtureSupport\SameLevel\ExpectedTestResult.txt" />
+    <Content Include="TestData\MultipleFixtureSupport\SameLevel\Readme.txt" />
     <Content Include="TestData\MultipleFixtureSupport\Simple\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />

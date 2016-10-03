@@ -22,5 +22,21 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture2.TestOne"), Is.EqualTo(TestStatus.Passed));
             Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture2.TestOne.DoTest"), Is.EqualTo(TestStatus.Passed));
         }
+
+        partial void SameLevel_AssertResultsFile(ResultsDocument testResults) {
+            const string baseName = "Ordered.RootOrderedTestFixture";
+
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture1[0]"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture1[0].TestOne"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture1[0].TestOne.DoTest"), Is.EqualTo(TestStatus.Passed));
+
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture2"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture2.TestOne"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture2.TestOne.DoTest"), Is.EqualTo(TestStatus.Passed));
+
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture1[1]"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture1[1].TestOne"), Is.EqualTo(TestStatus.Passed));
+            Assert.That(testResults.GetTestResult(baseName + ".OrderedTestFixture1[1].TestOne.DoTest"), Is.EqualTo(TestStatus.Passed));
+        }
     }
 }
