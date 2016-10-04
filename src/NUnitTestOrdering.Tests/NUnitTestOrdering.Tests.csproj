@@ -76,7 +76,8 @@
     <Compile Include="IntegrationTests\MultipleFixtureSupport.cs" />
     <Compile Include="IntegrationTests\TestExecution.cs" />
     <Compile Include="MethodOrdering\TestOrdererType.cs" />
-    <Compile Include="Support\GlobalTest.cs" />
+    <Compile Include="Support\NamedPipeStreamExtensions.cs" />
+    <Compile Include="Support\TestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\ResultsDocument.cs" />
     <Compile Include="Support\StartDebugger.cs" />

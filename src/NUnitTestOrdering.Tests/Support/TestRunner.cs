@@ -106,7 +106,7 @@ namespace NUnitTestOrdering.Tests.Support {
             this.Compile();
 
             StringBuilder outputBuilder = new StringBuilder();
-            using (NamedPipeServerStream np = new NamedPipeServerStream(this._namedPipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte)) {
+            using (NamedPipeServerStream np = new NamedPipeServerStream(this._namedPipeName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous)) {
                 using (StreamReader sr = new StreamReader(np, Encoding.UTF8)) {
                     Process process = new Process {
                         StartInfo = this.GetConsoleArguments()
@@ -114,17 +114,25 @@ namespace NUnitTestOrdering.Tests.Support {
 
                     TestContext.WriteLine($"Starting process with arguments: {process.StartInfo.Arguments}");
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
                     ParameterizedThreadStart namedPipePump = o => {
-                                                                 CancellationToken ct = (CancellationToken) o;
+                        CancellationToken ct = (CancellationToken) o;
 
-                                                                 Trace.WriteLine("Waiting for connection...");
-                                                                 np.WaitForConnection();
-                                                                 Trace.WriteLine("Connected");
+                        Trace.WriteLine("Waiting for connection...");
 
-                                                                 while (!ct.IsCancellationRequested)
-                                                                     if (np.IsConnected) outputBuilder.AppendLine(sr.ReadLine());
-                                                                     else Thread.Yield();
-                                                             };
+                        try {
+                            np.WaitForConnection(ct);
+                        }
+                        catch (OperationCanceledException) {
+                            return;
+                        }
+                                                                 
+                        Trace.WriteLine("Connected");
+
+                        while (!ct.IsCancellationRequested)
+                            if (np.IsConnected) outputBuilder.AppendLine(sr.ReadLine());
+                            else Thread.Yield();
+                    };
 
                     Thread thread = new Thread(namedPipePump) {
                         Name = "TestPump",
@@ -139,18 +147,22 @@ namespace NUnitTestOrdering.Tests.Support {
                         if (this._startDebugger) {
                             process.WaitForExit();
                         } else {
-                            process.WaitForExit(1000 * 60 * 10);
+                            process.WaitForExit(1000 * 10 /* Reasonable time in which a test should complete */);
                         }
 
                         if (!process.HasExited) process.Kill();
                     }
                     finally {
                         cancellationTokenSource.Cancel();
+
                         thread.Join(TimeSpan.FromSeconds(5));
+
                         if (thread.IsAlive) {
                             Trace.WriteLine("Need to abort thread. It didn't want to terminate on its own.");
                             thread.Abort();
                         }
+
+                        GC.KeepAlive(cancellationTokenSource);
                     }
                 }
             }
