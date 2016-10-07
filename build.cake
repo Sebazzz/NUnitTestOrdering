@@ -36,6 +36,13 @@ Task("Rebuild")
 Task("Restore-NuGet-Packages")
     .Does(() => {
     NuGetRestore($"./{baseName}.sln");
+    
+    Information("Running NuGet restore for tests");
+    
+    // For tests, we require additional packages
+    NuGetRestore($"./src/{baseName}.Tests/Support/NUnitTestVersions/packages.config", new NuGetRestoreSettings {
+        PackagesDirectory = Directory("./packages") // Required when not restoring solution
+    });
 });
 
 Task("Build")

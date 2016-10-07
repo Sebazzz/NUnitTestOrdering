@@ -41,18 +41,18 @@ namespace NUnitTestOrdering.MethodOrdering {
         }
 
         private sealed class TestCaseDescriptor : IEquatable<TestCaseDescriptor> {
-            private readonly string _assembly;
+            private readonly Assembly _assembly;
             private readonly string _method;
             private readonly string _type;
 
-            public string Assembly => this._assembly;
+            public Assembly Assembly => this._assembly;
             public string Method => this._method;
             public string Type => this._type;
 
             public TestCaseDescriptor(string method, Type dependendOnType) {
                 this._method = method;
                 this._type = dependendOnType.FullName;
-                this._assembly = dependendOnType.Assembly.FullName;
+                this._assembly = dependendOnType.Assembly;
             }
 
             public bool Equals(TestCaseDescriptor other) {
@@ -91,7 +91,7 @@ namespace NUnitTestOrdering.MethodOrdering {
             public TestCaseWrapper(TestCaseDescriptor testCase) {
                 this.Descriptor = testCase;
 
-                var type = Assembly.Load(testCase.Assembly).GetType(testCase.Type, true);
+                var type = testCase.Assembly.GetType(testCase.Type, true);
 
                 MethodInfo method = null;
                 if (testCase.Method != null) {

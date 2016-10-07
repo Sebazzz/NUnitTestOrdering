@@ -36,7 +36,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     public sealed partial class <#=fixtureDirectory#> {
 <#		foreach (var testDirectory in fixtureDirectory.GetDirectories()) { #>
         [Test]
-        public void <#=testDirectory.Name#>() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void <#=testDirectory.Name#>(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.<#=fixtureDirectory.Name#>.<#=testDirectory.Name#>();
             string expectedResult = input.ReadResultsFile();
@@ -44,7 +45,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;

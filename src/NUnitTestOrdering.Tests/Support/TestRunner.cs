@@ -10,6 +10,8 @@ namespace NUnitTestOrdering.Tests.Support {
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.IO.Pipes;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
     using System.Threading;
     using System.Xml.Linq;
@@ -19,20 +21,22 @@ namespace NUnitTestOrdering.Tests.Support {
     using Microsoft.CodeAnalysis.Emit;
 
     using NUnit.Framework;
+    using NUnit.Framework.Internal;
 
+    using NUnitTestOrdering.FixtureOrdering;
     using NUnitTestOrdering.MethodOrdering;
 
     using TestData;
 
-    public sealed class TestRunner : IDisposable {
+    internal sealed class TestRunner : IDisposable {
         private static readonly MetadataReference CorlibReference = MetadataReference.CreateFromFile(typeof(object).Assembly.Location);
         private static readonly MetadataReference SystemReference = MetadataReference.CreateFromFile(typeof(Uri).Assembly.Location);
         private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(NamedPipeServerStream).Assembly.Location);
-        private static readonly MetadataReference NUnitReference = MetadataReference.CreateFromFile(typeof(OneTimeSetUpAttribute).Assembly.Location);
         private static readonly MetadataReference NUnitTestOrderingReference = MetadataReference.CreateFromFile(typeof(TestMethodWithoutDependencyAttribute).Assembly.Location);
 
         private readonly string _namedPipeName;
         private readonly string _testAssemblyName;
+        private readonly string _testAssemblyConfigPath;
         private readonly string _testAssemblyPath;
         private readonly string _testAssemblyPdbPath;
         private readonly string _testErrorPath;
@@ -42,22 +46,37 @@ namespace NUnitTestOrdering.Tests.Support {
         private readonly bool _startDebugger;
 
         private readonly TestDataDirectory _testDataDirectory;
+        private readonly NUnitVersion _nUnitVersion;
 
         private bool _hasCompiled;
         private string _nunitRunnerPath;
 
         public XDocument TestResultsDocument { get; private set; }
 
-        public TestRunner(TestDataDirectory testDataDirectory) {
+        public TestRunner(TestDataDirectory testDataDirectory, NUnitVersion nUnitVersion) {
             this._testDataDirectory = testDataDirectory;
+            this._nUnitVersion = nUnitVersion;
             this._namedPipeName = Guid.NewGuid().ToString("N");
 
-            this._testAssemblyName = TestContext.CurrentContext.Test.FullName.Replace('.', '_');
-            this._testAssemblyPath =
-                Path.Combine(
-                    GetCurrentDirectory(),
-                    Path.ChangeExtension(this._testAssemblyName, ".dll"));
+            string testFqName = TestExecutionContext.CurrentContext.CurrentTest.Parent.FullName;
+
+            this._testAssemblyName = testFqName.Replace('.', '_');
+
+            string testDirectory = Path.Combine(GetCurrentDirectory(), this._testAssemblyName);
+            string nunitVersionName = "NUnit_v" + this._nUnitVersion.Version.Replace('.', '_');
+
+            testDirectory = Path.Combine(testDirectory, nunitVersionName);
+
+            if (!Directory.Exists(testDirectory)) {
+                Directory.CreateDirectory(testDirectory);
+            }
+
+            CopyTestDependency(testDirectory, nUnitVersion.AssemblyLocation);
+            CopyTestDependency(testDirectory, typeof(TestMethodWithoutDependencyAttribute).Assembly.Location);
+
+            this._testAssemblyPath = Path.Combine(testDirectory, Path.ChangeExtension("Test", ".dll"));
             this._testAssemblyPdbPath = Path.ChangeExtension(this._testAssemblyPath, ".pdb");
+            this._testAssemblyConfigPath = Path.ChangeExtension(this._testAssemblyPath, ".dll.config");
             this._testErrorPath = Path.ChangeExtension(this._testAssemblyPath, ".err.log");
             this._testOutputPath = Path.ChangeExtension(this._testAssemblyPath, ".out.log");
             this._testResultPath = Path.ChangeExtension(this._testAssemblyPath, ".xml");
@@ -67,6 +86,25 @@ namespace NUnitTestOrdering.Tests.Support {
             this._startDebugger = TestContext.CurrentContext.Test.Properties.ContainsKey("StartDebugging");
 
             this.CleanUp();
+        }
+
+        private static void CopyTestDependency(string testDirectory, string testDependencySourcePath) {
+            string testDependencyFileName = Path.GetFileName(testDependencySourcePath);
+            Debug.Assert(testDependencyFileName != null);
+
+            string testDependencyTargetAssemblyPath = Path.Combine(testDirectory, testDependencyFileName);
+
+            if (!File.Exists(testDependencyTargetAssemblyPath)) {
+                File.Copy(testDependencySourcePath, testDependencyTargetAssemblyPath);
+            }
+
+            if (!testDependencySourcePath.EndsWith("pdb")) {
+                string pdbFile = testDependencySourcePath.Substring(0, testDependencySourcePath.Length - 3) + "pdb";
+
+                if (File.Exists(pdbFile)) {
+                    CopyTestDependency(testDirectory, pdbFile);
+                }
+            }
         }
 
         public void Dispose() {
@@ -188,28 +226,79 @@ namespace NUnitTestOrdering.Tests.Support {
         private void Compile() {
             if (this._hasCompiled) return;
 
-            CSharpCompilation compilation =
-                CSharpCompilation.Create(this._testAssemblyName)
-                    .AddReferences(CorlibReference)
-                    .AddReferences(SystemReference)
-                    .AddReferences(SystemCoreReference)
-                    .AddReferences(NUnitReference)
-                    .AddReferences(NUnitTestOrderingReference)
-                    .AddSyntaxTrees(this.GetSyntaxTrees())
-                    .WithOptions(
-                        new CSharpCompilationOptions(
-                            OutputKind.DynamicallyLinkedLibrary,
-                            concurrentBuild: true,
-                            warningLevel: 0
-                        ));
+            this.CreateAppConfig();
 
-            EmitResult result = compilation.Emit(
-                this._testAssemblyPath,
-                this._testAssemblyPdbPath);
+            PortableExecutableReference nunitReference = this.GetNUnitReference();
 
-            Assert.That(result.Diagnostics, Is.Empty, "Error while emitting compilation result");
+            using (var appConfig = File.OpenRead(this._testAssemblyConfigPath)) {
+                CSharpCompilation compilation =
+                    CSharpCompilation.Create("Test")
+                        .AddReferences(CorlibReference)
+                        .AddReferences(SystemReference)
+                        .AddReferences(SystemCoreReference)
+                        .AddReferences(nunitReference)
+                        .AddReferences(NUnitTestOrderingReference)
+                        .AddSyntaxTrees(this.GetSyntaxTrees())
+                        .WithOptions(
+                            new CSharpCompilationOptions(
+                                OutputKind.DynamicallyLinkedLibrary,
+                                concurrentBuild: true,
+                                warningLevel: 0,
+                                assemblyIdentityComparer: DesktopAssemblyIdentityComparer.LoadFromXml(appConfig))
+                        )
+                ;
 
-            this._hasCompiled = true;
+                EmitResult result = compilation.Emit(
+                    this._testAssemblyPath,
+                    this._testAssemblyPdbPath);
+
+                Assert.That(result.Diagnostics, Is.Empty, "Error while emitting compilation result");
+
+                this._hasCompiled = true;
+            }
+        }
+
+        private PortableExecutableReference GetNUnitReference() {
+            Assembly referenceNunitVersion = typeof(TestFixture).Assembly;
+
+            if (new Version(this._nUnitVersion.Version) < referenceNunitVersion.GetName().Version) {
+                // Causes CS1705 because the C# compiler refuses to use an older version of NUnit than
+                // the NUnitTestOrdering assembly references, so instead we reference the up-to-date
+                // version and at runtime load the older version instead
+                return MetadataReference.CreateFromFile(referenceNunitVersion.Location);
+            }
+
+            return MetadataReference.CreateFromFile(this._nUnitVersion.AssemblyLocation);
+        }
+
+        private void CreateAppConfig() {
+            AssemblyName nunitFrameworkAssembly = typeof(TestFixture).Assembly.GetName();
+
+            XNamespace ns = XNamespace.Get("urn:schemas-microsoft-com:asm.v1");
+
+            XDocument document = new XDocument(new XDeclaration("1.0", "utf-8", null));
+            document.Add(
+                new XElement("configuration",
+                    new XElement("runtime",
+                        new XElement(ns + "assemblyBinding", 
+                            new XElement(ns + "dependentAssembly",
+                                new XElement(ns + "assemblyIdentity",
+                                    new XAttribute("name", nunitFrameworkAssembly.Name),
+                                    new XAttribute("publicKeyToken", String.Join(String.Empty, nunitFrameworkAssembly.GetPublicKeyToken().Select(x => x.ToString("x2")))),
+                                    new XAttribute("culture", "neutral")
+                                ),
+
+                                new XElement(ns + "bindingRedirect",
+                                    new XAttribute("oldVersion", "0.0.0.0-10.0.0.0"), // Wide version range, don't care
+                                    new XAttribute("newVersion", this._nUnitVersion.Version + ".0")
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+
+            document.Save(this._testAssemblyConfigPath);
         }
 
         private SyntaxTree[] GetSyntaxTrees() {

@@ -21,7 +21,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class MethodOrdering {
         [Test]
-        public void Simple() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Simple(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.MethodOrdering.Simple();
             string expectedResult = input.ReadResultsFile();
@@ -29,7 +30,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -46,7 +47,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Simple_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void UsingTestOrderer() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void UsingTestOrderer(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.MethodOrdering.UsingTestOrderer();
             string expectedResult = input.ReadResultsFile();
@@ -54,7 +56,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -71,7 +73,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void UsingTestOrderer_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.MethodOrdering.UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable();
             string expectedResult = input.ReadResultsFile();
@@ -79,7 +82,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -96,7 +99,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void UsingTestOrderer_OnException_MarksFixtureAsNotRunnable() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void UsingTestOrderer_OnException_MarksFixtureAsNotRunnable(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.MethodOrdering.UsingTestOrderer_OnException_MarksFixtureAsNotRunnable();
             string expectedResult = input.ReadResultsFile();
@@ -104,7 +108,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -126,7 +130,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class MultipleFixtureSupport {
         [Test]
-        public void SameLevel() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void SameLevel(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.MultipleFixtureSupport.SameLevel();
             string expectedResult = input.ReadResultsFile();
@@ -134,7 +139,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -151,7 +156,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void SameLevel_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Simple() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Simple(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.MultipleFixtureSupport.Simple();
             string expectedResult = input.ReadResultsFile();
@@ -159,7 +165,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -181,7 +187,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class PlainFixtureOrdering {
         [Test]
-        public void HierarchySetupTeardown() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void HierarchySetupTeardown(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.PlainFixtureOrdering.HierarchySetupTeardown();
             string expectedResult = input.ReadResultsFile();
@@ -189,7 +196,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -206,7 +213,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void HierarchySetupTeardown_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void NestedDeepHierarchy() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void NestedDeepHierarchy(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.PlainFixtureOrdering.NestedDeepHierarchy();
             string expectedResult = input.ReadResultsFile();
@@ -214,7 +222,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -231,7 +239,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void NestedDeepHierarchy_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void OneDeepHierarchy() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void OneDeepHierarchy(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.PlainFixtureOrdering.OneDeepHierarchy();
             string expectedResult = input.ReadResultsFile();
@@ -239,7 +248,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -261,7 +270,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class SetupFixtureSupport {
         [Test]
-        public void OneDeepHierarchy() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void OneDeepHierarchy(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.SetupFixtureSupport.OneDeepHierarchy();
             string expectedResult = input.ReadResultsFile();
@@ -269,7 +279,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -291,7 +301,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class TestExecution {
         [Test]
-        public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot();
             string expectedResult = input.ReadResultsFile();
@@ -299,7 +310,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -316,7 +327,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestExecution.Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash();
             string expectedResult = input.ReadResultsFile();
@@ -324,7 +336,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -341,7 +353,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Fail_OneDeepHierarchy_OtherTestsRun() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Fail_OneDeepHierarchy_OtherTestsRun(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestExecution.Fail_OneDeepHierarchy_OtherTestsRun();
             string expectedResult = input.ReadResultsFile();
@@ -349,7 +362,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -366,7 +379,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Fail_OneDeepHierarchy_OtherTestsRun_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Fail_OneDeepHierarchy_OtherTestsSkipped() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Fail_OneDeepHierarchy_OtherTestsSkipped(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestExecution.Fail_OneDeepHierarchy_OtherTestsSkipped();
             string expectedResult = input.ReadResultsFile();
@@ -374,7 +388,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -396,7 +410,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public sealed partial class TestIntegrity {
         [Test]
-        public void ActionAttributeRunsOnEverything() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void ActionAttributeRunsOnEverything(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestIntegrity.ActionAttributeRunsOnEverything();
             string expectedResult = input.ReadResultsFile();
@@ -404,7 +419,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -421,7 +436,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void ActionAttributeRunsOnEverything_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void OrderedWithOrderAttribute() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void OrderedWithOrderAttribute(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestIntegrity.OrderedWithOrderAttribute();
             string expectedResult = input.ReadResultsFile();
@@ -429,7 +445,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -446,7 +462,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void OrderedWithOrderAttribute_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Single() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Single(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestIntegrity.Single();
             string expectedResult = input.ReadResultsFile();
@@ -454,7 +471,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -471,7 +488,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Single_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Single_WithActionAttribute() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Single_WithActionAttribute(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestIntegrity.Single_WithActionAttribute();
             string expectedResult = input.ReadResultsFile();
@@ -479,7 +497,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -496,7 +514,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Single_WithActionAttribute_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Single_WithSetupFixture() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Single_WithSetupFixture(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestIntegrity.Single_WithSetupFixture();
             string expectedResult = input.ReadResultsFile();
@@ -504,7 +523,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
@@ -521,7 +540,8 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         partial void Single_WithSetupFixture_AssertResultsFile(ResultsDocument testResults);
 
         [Test]
-        public void Single_WithSetupTeardown() {
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void Single_WithSetupTeardown(NUnitVersion nunitVersion) {
             // Given
             var input = TestDataDirectories.TestIntegrity.Single_WithSetupTeardown();
             string expectedResult = input.ReadResultsFile();
@@ -529,7 +549,7 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
             // When
             string result;
             XDocument rawResultsDocument;
-            using (TestRunner testRunner = new TestRunner(input)) {
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
                 result = testRunner.Run();
 
                 rawResultsDocument = testRunner.TestResultsDocument;
