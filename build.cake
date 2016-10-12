@@ -122,6 +122,7 @@ Task("NuGet-Pack")
 	});
 	
 Task("AppVeyor-Test")
+	.IsDependentOn("Clean")
 	.IsDependentOn("Test")
 	.Does(() => {
 		var jobId = EnvironmentVariable("APPVEYOR_JOB_ID");
