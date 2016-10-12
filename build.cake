@@ -58,10 +58,10 @@ Task("Build")
 Task("Test")
     .IsDependentOn("Build")
 	.Description("Run all unit tests - under code coverage")
-    .Does(() => {
-        DotCoverCover(
-			tool => {
-				tool.NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
+    .Does((ctx) => {
+        //DotCoverCover(
+		//	tool => {
+				ctx.NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
 					NoHeader = true,
 					NoColor = false,
 					Verbose = true,
@@ -69,13 +69,13 @@ Task("Test")
 					Full = true,
 					ResultFormat = /*AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : */"nunit3"
 				});
-			},
-			dotCoverResultFile,
-			new DotCoverCoverSettings () 
-				.WithFilter($"+:{baseName}")
-				.WithFilter("-:*.Tests")
-				.WithAttributeFilter("-:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute")
-        );
+		//	},
+		//	dotCoverResultFile,
+		//	new DotCoverCoverSettings () 
+		//		.WithFilter($"+:{baseName}")
+		//		.WithFilter("-:*.Tests")
+		//		.WithAttributeFilter("-:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute")
+        //);
 });
 
 Task("NuGet-Test")
