@@ -108,8 +108,13 @@ namespace NUnitTestOrdering.Tests.Support {
         }
 
         public void Dispose() {
-            WriteArtifacts(this._testErrorPath, TestContext.Error);
-            WriteArtifacts(this._testOutputPath, TestContext.Out);
+            try {
+                WriteArtifacts(this._testErrorPath, TestContext.Error);
+                WriteArtifacts(this._testOutputPath, TestContext.Out);
+            }
+            catch (IOException ex) {
+                TestContext.Error.WriteLine($"Unable to write artifacts: {ex}");
+            }
 
             //this.CleanUp();
         }
@@ -150,7 +155,7 @@ namespace NUnitTestOrdering.Tests.Support {
                         StartInfo = this.GetConsoleArguments()
                     };
 
-                    TestContext.WriteLine($"Starting process with arguments: {process.StartInfo.Arguments}");
+                    TestContext.WriteLine($"Starting process with arguments: \"{process.StartInfo.FileName}\" {process.StartInfo.Arguments}");
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
                     ParameterizedThreadStart namedPipePump = o => {
@@ -173,7 +178,7 @@ namespace NUnitTestOrdering.Tests.Support {
                     };
 
                     Thread thread = new Thread(namedPipePump) {
-                        Name = "TestPump",
+                        Name = "TestPump " + TestContext.CurrentContext.Test.FullName,
                         IsBackground = true
                     };
 
