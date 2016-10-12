@@ -204,6 +204,8 @@
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst_Child.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst.cs" />
     <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\AssemblyInfo.cs" />
+    <Compile Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\AssemblyInfo.cs" />
     <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\GlobalSetUpFixture.cs" />
     <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\MyOrderedTest.cs" />
@@ -259,6 +261,8 @@
     <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />
     <Content Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\Readme.txt" />
     <EmbeddedResource Include="TestData\SetupFixtureSupport\OneDeepHierarchy\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\ExpectedTestResult.txt" />
+    <Content Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\Readme.txt" />
     <Content Include="TestData\SetupFixtureSupport\OneDeepHierarchy\Readme.txt" />
     <Content Include="TestData\TestDataIndex.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

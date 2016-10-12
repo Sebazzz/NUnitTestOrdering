@@ -12,6 +12,9 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
 
     using NUnit.Framework.Internal;
 
+    /// <summary>
+    /// Configures a test fixture of the specified type to run. The full test fixture is run in whatever order specified.
+    /// </summary>
     [DebuggerDisplay("{_type}")]
     internal sealed class TestFixtureTestPart : IOrderedTestPart {
         private readonly Type _type;

@@ -54,6 +54,7 @@
     <Compile Include="Common\NullableDictionary.cs" />
     <Compile Include="Common\TestOrderingException.cs" />
     <Compile Include="EnableTestOrderingAttribute.cs" />
+    <Compile Include="FixtureOrdering\Internal\ConfiguredTestFixtureTestPart.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\ExecutionUtility.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\ITestTracker.cs" />
     <Compile Include="FixtureOrdering\Internal\ExecutionTracking\OrderedTestSpecificationFixtureExecutionTracker.cs" />
@@ -82,6 +83,7 @@
       <DependentUpon>TestTrackerDispatcher.tt</DependentUpon>
     </Compile>
     <Compile Include="FixtureOrdering\OrderedTestFixtureAttribute.cs" />
+    <Compile Include="FixtureOrdering\TestFixtureConfigurator.cs" />
     <Compile Include="FixtureOrdering\TestOrderingSpecification.cs" />
     <Compile Include="MethodOrdering\Attributes.cs" />
     <Compile Include="MethodOrdering\TestMethodDependencyChainer.cs" />

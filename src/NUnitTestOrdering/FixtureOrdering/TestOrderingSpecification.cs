@@ -27,7 +27,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
 
         /// <summary>
         /// In a derived class, implement this to define the tests to run. Specify this by calling the
-        /// <see cref="TestFixture{T}"/> and <see cref="OrderedTestSpecification{T}"/> method
+        /// <see cref="TestFixture{T}()"/> and <see cref="OrderedTestSpecification{T}"/> method
         /// </summary>
         protected abstract void DefineTestOrdering();
 
@@ -61,6 +61,19 @@ namespace NUnitTestOrdering.FixtureOrdering {
         /// <typeparam name="T"></typeparam>
         protected void OrderedTestSpecification<T>() where T : TestOrderingSpecification {
             this._parts.Add(new TestOrderingSpecificationTestPart(typeof(T)));
+        }
+
+        /// <summary>
+        /// Runs the specified ordered test fixture using a specific config
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="configureTestFixture">Allows configuring which test methods to run. Test methods not specified will not run.</param>
+        protected void TestFixture<T>(Action<TestFixtureConfigurator<T>> configureTestFixture) {
+            if (configureTestFixture == null) throw new ArgumentNullException(nameof(configureTestFixture));
+
+            ITestFixtureConfigurator configurator = new DelegateTestFixtureConfigurator<T>(configureTestFixture);
+
+            this._parts.Add(new ConfiguredTestFixtureTestPart(typeof(T), configurator));
         }
 
         internal ICollection<IOrderedTestPart> GetTestParts() {
