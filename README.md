@@ -1,16 +1,35 @@
 # NUnit Ordered Testing library
 
-This library allows you to use test ordering with NUnit. The primary use case is to allow integration tests to depend on each other. Don't use this library to order to unit tests, that's bad practice!
+This library allows you to use test ordering with NUnit. 
 
 [![Build status](https://ci.appveyor.com/api/projects/status/1ugsdmnkcpw5krh4?svg=true)](https://ci.appveyor.com/project/Sebazzz/nunittestordering)
 [![NuGet Version and Downloads count](https://buildstats.info/nuget/nunittestordering)](https://www.nuget.org/packages/nunittestordering)
 
+## Why?
+
+The primary use case of this library is to allow integration tests to depend on each other. You may want to test a certain work flow in the application, but each step of the workflow is a test of its own. When testing a web shop application, you may want to test these steps:
+
+- Manage products
+  - Add product in web shop
+  - Find the product in the overview
+  - Add stock for the product
+- Buy product
+  - Find product using search
+  - Add to basket
+  - Buy product
+- Manage shipping
+  - ... 
+
+Using this library you can model and manage workflow tests such as the above. 
+
+**Note:** Don't use this library to order to unit tests, that's bad practice. You want your unit tests to be as independent as possible
+
 ## Features
 The library offers the following features:
 
-- Build complex test ordering hierarchies
-- Skip subsequent tests if an test in order fails
-- Order your test methods by dependency instead of integer order
+- Build complex test ordering hierarchies.
+- Skip subsequent tests if an earlier test fails.
+- Order your test methods by dependency instead of integer order.
 - Supports usage side-by-side with unordered tests. Unordered tests are executed first.
 
 Please also view the [known issues](#known-issues) below.
@@ -49,6 +68,15 @@ public sealed class MyOrderedTestFixture : TestOrderingSpecification {
 
         TestFixture<Fixture2>();
         TestFixture<Fixture3>();
+
+		// You can specify a fixture twice
+        TestFixture<Fixture3>();
+
+        // You can only run a specific set of methods in a specific order
+        TestFixture<Fixture2>(config => 
+            config.TestMethod(t => t.MyFirstTest())
+                  .TestMethod(nameof(Fixture2.MySecondTest)) // Alternate syntax
+                  .TestMethod(t => t.MyThirdTest()));
     }
 
     protected override bool ContinueOnError => false; // Or true, if you want to continue even if a child test fails
