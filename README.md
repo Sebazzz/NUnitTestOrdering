@@ -174,29 +174,29 @@ Related to test runners:
 ### Building
 To build and run the tests in the library use:
 
-```
-build
-```
+    build
 
 Or:
 
-```
-build -Target Test
-```
+    build -Target Test
 
 To find other targets to run, please run:
 
-```
-build /?
-```
+    build /?
+
+**Note:** Before you run the tests in Visual Studio or any other test runner, please restore NuGet packages by running the command below. This has already been done for you if you have run the tests using commands shown above.
+
+    build -Target Restore-NuGet-Packages
 
 ### Testing
-Most of the tests written for the library are "full blown" integration tests. They work by dynamically compiling an assembly and then running it and capturing the output. 
+Part of the tests written for the library are "full blown" integration tests. They work by dynamically compiling an assembly and then running it under NUnit and capturing the output. The tests run for multiple NUnit version, so consistency of behavior is enforced and checked across NUnit versions. This is important because the library extends and depends on several internal NUnit constructs.
 
 #### Developing integration tests
 To develop an integration test, you need to create an directory [in the TestData directory](src/NUnitTestOrdering.Tests/TestData). Creating a directory will yield an TestFixture, and each subdirectory will yield an individual test.
 
 An test consists at least of one or more C# files and `ExpectedTestResult.txt` text file, as an embedded resource, which contains the expected logged test output. Once you have created your test files, regenerate the `TestDataIndex.tt` file. You are now ready to run your test. In case of trouble, add an `StartDebuggerAttribute` to the test method to start the NUnit application under the debugger. 
+
+A test is run against several NUnit versions, as stated in the [test packages file](src/NUnitTestOrdering.Tests/Support/NUnitTestVersions/packages.config).
 
 ## Contributions
 This project is accepting contributions. Please keep the following guidelines in mind:
