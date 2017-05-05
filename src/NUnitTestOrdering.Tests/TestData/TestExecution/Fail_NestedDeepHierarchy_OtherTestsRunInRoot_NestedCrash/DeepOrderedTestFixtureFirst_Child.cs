@@ -10,8 +10,6 @@ namespace NUnitTestOrdering.Tests.TestData.TestExecution.Fail_NestedDeepHierarch
 
     using NUnit.Framework;
 
-    using NUnitTestOrdering.FixtureOrdering;
-
     public sealed class OrderedTestFixture : TestOrderingSpecification {
         protected override void DefineTestOrdering() {
             this.TestFixture<Nest2TestOne>();

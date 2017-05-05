@@ -21,6 +21,7 @@ namespace NUnitTestOrdering.Tests.Support {
     using Microsoft.CodeAnalysis.Emit;
 
     using NUnit.Framework;
+    using NUnit.Framework.Interfaces;
     using NUnit.Framework.Internal;
 
     using NUnitTestOrdering.FixtureOrdering;
@@ -83,7 +84,12 @@ namespace NUnitTestOrdering.Tests.Support {
 
             Environment.SetEnvironmentVariable("_TEST_PIPENAME", this._namedPipeName);
 
-            this._startDebugger = TestContext.CurrentContext.Test.Properties.ContainsKey("StartDebugging");
+            // Note: using internal type of NUnit here
+            var executionContext = TestExecutionContext.CurrentContext;
+            Test currentTest = executionContext.CurrentTest;
+            ITest parentTest = currentTest.Parent;
+
+            this._startDebugger = currentTest.Properties.ContainsKey("StartDebugging") || parentTest.Properties.ContainsKey("StartDebugging");
 
             this.CleanUp();
         }

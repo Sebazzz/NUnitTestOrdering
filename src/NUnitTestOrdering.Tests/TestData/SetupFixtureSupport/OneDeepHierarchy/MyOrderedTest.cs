@@ -6,8 +6,6 @@
 // ******************************************************************************
 
 namespace NUnitTestOrdering.Tests.TestData.SetupFixtureSupport.OneDeepHierarchy {
-    using System.Diagnostics;
-
     using NUnit.Framework;
 
     [TestFixture]

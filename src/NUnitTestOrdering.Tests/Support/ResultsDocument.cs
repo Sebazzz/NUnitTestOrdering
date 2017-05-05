@@ -25,6 +25,9 @@ namespace NUnitTestOrdering.Tests.Support {
             this.RawDocument = rawDocument;
 
             this._rootTestNode = rawDocument.XPathSelectElement("/test-run/test-suite");
+            if (this._rootTestNode == null) {
+                Assert.Fail("Unable to find test results test-suite node in document: " + rawDocument);
+            }
         }
 
         public TestStatus GetTestResult(string test) {

@@ -12,13 +12,17 @@
                 case TestStatus.Passed:
                     return false;
 
+                    // Below statuses are new and
+                case (TestStatus) 3: /* Warning */
+                case (TestStatus) 4: /* Failed */
+                    goto case TestStatus.Inconclusive;
+
                 case TestStatus.Inconclusive:
                 case TestStatus.Skipped:
-                case TestStatus.Failed:
                     return true;
 
                 default:
-                    Debug.Fail("Unexpected test status: " + testStatus);
+                    Debug.Fail($"Unexpected test status: {testStatus} #{testStatus:D}");
                     return false;
             }
         }
