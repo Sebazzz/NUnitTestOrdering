@@ -3,7 +3,7 @@
 This library allows you to use test ordering with NUnit. 
 
 [![Build status](https://ci.appveyor.com/api/projects/status/1ugsdmnkcpw5krh4?svg=true)](https://ci.appveyor.com/project/Sebazzz/nunittestordering)
-[![NuGet Version and Downloads count](https://buildstats.info/nuget/nunittestordering)](https://www.nuget.org/packages/nunittestordering)
+[![NuGet Version and Downloads count](https://buildstats.info/nuget/NUnitTestOrdering?includePreReleases=true)](https://www.nuget.org/packages/nunittestordering)
 
 ## Why?
 
