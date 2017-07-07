@@ -20,7 +20,7 @@
 		
 		<dependencies>
 			<!-- Since we rely on some details on how NUnit functions, lets keep it limited to minor versions. -->
-			<dependency id="NUnit" version="[3.4, 3.7)" />
+			<dependency id="NUnit" version="[3.7, 3.8)" />
 		</dependencies>
 	</metadata>
 	<files>

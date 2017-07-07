@@ -29,7 +29,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
         /// <param name="test"></param>
         /// <returns></returns>
         public void HandleTestStart(ITest test) {
-            TestExecutionContext executionContext = TestExecutionContext.GetTestExecutionContext();
+            TestExecutionContext executionContext = TestExecutionContext.CurrentContext;
 
             if (executionContext != null) {
                 this.HandleTestStartCore(test, executionContext);

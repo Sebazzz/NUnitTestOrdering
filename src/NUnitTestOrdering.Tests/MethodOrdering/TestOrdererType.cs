@@ -109,6 +109,11 @@ namespace NUnitTestOrdering.Tests.MethodOrdering {
             }
 
             public override IList<ITest> Tests => null;
+
+            /// <inheritdoc />
+            public override object[] Arguments {
+                get { throw new NotImplementedException(); }
+            }
         }
     }
 }

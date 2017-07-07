@@ -107,6 +107,11 @@ namespace NUnitTestOrdering.Tests.FixtureOrdering.Internal {
             }
 
             public override IList<ITest> Tests => null;
+
+            /// <inheritdoc />
+            public override object[] Arguments {
+                get { throw new System.NotImplementedException(); }
+            }
         }
     }
 }

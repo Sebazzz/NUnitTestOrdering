@@ -12,9 +12,8 @@
                 case TestStatus.Passed:
                     return false;
 
-                    // Below statuses are new and
-                case (TestStatus) 3: /* Warning */
-                case (TestStatus) 4: /* Failed */
+                case TestStatus.Warning:
+                case TestStatus.Failed:
                     goto case TestStatus.Inconclusive;
 
                 case TestStatus.Inconclusive:
