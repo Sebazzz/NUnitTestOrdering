@@ -137,7 +137,9 @@ Task("AppVeyor-Test")
 	});
 
 Task("AppVeyor")
-	.IsDependentOn("AppVeyor-Test");
+	.IsDependentOn("AppVeyor-Test")
+	.IsDependentOn("NuGet-Pack")
+	;
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
