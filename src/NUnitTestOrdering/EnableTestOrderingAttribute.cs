@@ -66,6 +66,10 @@ namespace NUnitTestOrdering.FixtureOrdering {
         }
 
         private static void ApplyOrdering(TestSuite root, Assembly assembly) {
+            // Mark for debugging
+            root.Properties.Set(nameof(NUnitTestOrdering), "Applied at: " + Environment.StackTrace);
+
+            // Apply test orderer
             TestMethodOrdererApplier.DoOrderTestMethodsRecursive(root);
             TestFixtureOrderer orderer = new TestFixtureOrderer(assembly, root);
             orderer.OrderTests();
