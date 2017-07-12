@@ -264,6 +264,32 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
 
         partial void OneDeepHierarchy_AssertResultsFile(ResultsDocument testResults);
 
+        [Test]
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void SpecifyTestMethodOrder(NUnitVersion nunitVersion) {
+            // Given
+            var input = TestDataDirectories.PlainFixtureOrdering.SpecifyTestMethodOrder();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                SpecifyTestMethodOrder_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void SpecifyTestMethodOrder_AssertResultsFile(ResultsDocument testResults);
+
     }
 
     [TestFixture]
@@ -294,6 +320,89 @@ namespace NUnitTestOrdering.Tests.IntegrationTests {
         }
 
         partial void OneDeepHierarchy_AssertResultsFile(ResultsDocument testResults);
+
+    }
+
+    [TestFixture]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public sealed partial class TestCaseSourceAttributeSupport {
+        [Test]
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void TestCaseSourceOnly(NUnitVersion nunitVersion) {
+            // Given
+            var input = TestDataDirectories.TestCaseSourceAttributeSupport.TestCaseSourceOnly();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                TestCaseSourceOnly_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void TestCaseSourceOnly_AssertResultsFile(ResultsDocument testResults);
+
+        [Test]
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void TestCaseSourceWithMethodOrder(NUnitVersion nunitVersion) {
+            // Given
+            var input = TestDataDirectories.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrder();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                TestCaseSourceWithMethodOrder_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void TestCaseSourceWithMethodOrder_AssertResultsFile(ResultsDocument testResults);
+
+        [Test]
+        [TestCaseSource(typeof(NUnitVersionEnumerator), nameof(NUnitVersionEnumerator.GetTestCases), Category = TestCategory.IntegrationTest)]
+        public void TestCaseSourceWithMethodOrderExclude(NUnitVersion nunitVersion) {
+            // Given
+            var input = TestDataDirectories.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrderExclude();
+            string expectedResult = input.ReadResultsFile();
+
+            // When
+            string result;
+            XDocument rawResultsDocument;
+            using (TestRunner testRunner = new TestRunner(input, nunitVersion)) {
+                result = testRunner.Run();
+
+                rawResultsDocument = testRunner.TestResultsDocument;
+            }
+
+            // Then
+            Assert.That(result, Is.EqualTo(expectedResult));
+
+            if (rawResultsDocument != null) {
+                TestCaseSourceWithMethodOrderExclude_AssertResultsFile(new ResultsDocument(rawResultsDocument));
+            }
+        }
+
+        partial void TestCaseSourceWithMethodOrderExclude_AssertResultsFile(ResultsDocument testResults);
 
     }
 
@@ -721,6 +830,17 @@ namespace NUnitTestOrdering.Tests.TestData {
                     ExpectedResultFile = ThisAssemblyName + ".TestData.PlainFixtureOrdering.OneDeepHierarchy.ExpectedTestResult.txt"
                 };
             }
+            public static TestDataDirectory SpecifyTestMethodOrder() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.PlainFixtureOrdering.SpecifyTestMethodOrder.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.PlainFixtureOrdering.SpecifyTestMethodOrder.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.PlainFixtureOrdering.SpecifyTestMethodOrder.ExpectedTestResult.txt"
+                };
+            }
         }
 
         public static class SetupFixtureSupport {
@@ -735,6 +855,42 @@ namespace NUnitTestOrdering.Tests.TestData {
                         },
 
                     ExpectedResultFile = ThisAssemblyName + ".TestData.SetupFixtureSupport.OneDeepHierarchy.ExpectedTestResult.txt"
+                };
+            }
+        }
+
+        public static class TestCaseSourceAttributeSupport {
+            public static TestDataDirectory TestCaseSourceOnly() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestCaseSourceAttributeSupport.TestCaseSourceOnly.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestCaseSourceAttributeSupport.TestCaseSourceOnly.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestCaseSourceAttributeSupport.TestCaseSourceOnly.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory TestCaseSourceWithMethodOrder() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrder.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrder.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrder.ExpectedTestResult.txt"
+                };
+            }
+            public static TestDataDirectory TestCaseSourceWithMethodOrderExclude() {
+                return new TestDataDirectory {
+                    Files = new [] {
+                             ThisAssemblyName + "." + "TestData.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrderExclude.AssemblyInfo.cs",
+                             ThisAssemblyName + "." + "TestData.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrderExclude.RootOrderedTestFixture.cs",
+                             ThisAssemblyName + "." + @"TestData.Common.cs"
+                        },
+
+                    ExpectedResultFile = ThisAssemblyName + ".TestData.TestCaseSourceAttributeSupport.TestCaseSourceWithMethodOrderExclude.ExpectedTestResult.txt"
                 };
             }
         }

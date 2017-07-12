@@ -198,6 +198,12 @@
     <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\GlobalSetUpFixture.cs" />
     <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\MyOrderedTest.cs" />
     <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrderExclude\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrderExclude\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrder\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrder\RootOrderedTestFixture.cs" />
+    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceOnly\AssemblyInfo.cs" />
+    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceOnly\RootOrderedTestFixture.cs" />
     <Compile Include="TestData\TestDataIndex.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -252,6 +258,9 @@
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\ExpectedTestResult.txt" />
     <Content Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\Readme.txt" />
     <Content Include="TestData\SetupFixtureSupport\OneDeepHierarchy\Readme.txt" />
+    <EmbeddedResource Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceOnly\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrder\ExpectedTestResult.txt" />
+    <EmbeddedResource Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrderExclude\ExpectedTestResult.txt" />
     <Content Include="TestData\TestDataIndex.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TestDataIndex.generated.cs</LastGenOutput>
