@@ -1,6 +1,6 @@
 # NUnit Ordered Testing library
 
-This library allows you to use test ordering with NUnit. 
+This library allows you to use test ordering with NUnit. This is an implementation of ordered tests for NUnit, similar in how [they exist in the MSTest framework](https://msdn.microsoft.com/en-us/library/ms182631.aspx).
 
 [![Build status](https://ci.appveyor.com/api/projects/status/1ugsdmnkcpw5krh4?svg=true)](https://ci.appveyor.com/project/Sebazzz/nunittestordering)
 [![NuGet Version and Downloads count](https://buildstats.info/nuget/NUnitTestOrdering?includePreReleases=true)](https://www.nuget.org/packages/nunittestordering)
@@ -21,6 +21,8 @@ The primary use case of this library is to allow integration tests to depend on 
   - ... 
 
 Using this library you can model and manage workflow tests such as the above. 
+
+**In essence this library is a replacement and improvement to MSTest Ordered Tests implemented for NUnit.**
 
 **Note:** Don't use this library to order to unit tests, that's bad practice. You want your unit tests to be as independent as possible
 
