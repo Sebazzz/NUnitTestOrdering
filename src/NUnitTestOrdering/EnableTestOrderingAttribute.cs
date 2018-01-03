@@ -42,8 +42,10 @@ namespace NUnitTestOrdering.FixtureOrdering {
             // but the parent of the SetUpFixture is null. This means we really aren't
             // able to determine the test assembly, except to assume that the SetUpFixture's type is in the test assembly
             TestSuite root = testAssembly;
-            if (testAssembly == null) {
-                SetUpFixture setUpFixture = test as SetUpFixture;
+            if (testAssembly == null || testAssembly.Tests.Count == 1 && testAssembly.Tests[0] is SetUpFixture) {
+                // As of NUnit 3.8.0 the SetupFixture is not the root but the first and only test of the TestAssembly
+
+                SetUpFixture setUpFixture = testAssembly == null ? test as SetUpFixture : (SetUpFixture) testAssembly.Tests[0];
 
                 if (setUpFixture == null) {
                     throw new TestOrderingException($"Expected condition: input object {test} is not a {typeof(TestAssembly).FullName} nor a {typeof(SetUpFixture).FullName}");
