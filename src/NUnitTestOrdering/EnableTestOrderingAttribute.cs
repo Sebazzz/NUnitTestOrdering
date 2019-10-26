@@ -45,7 +45,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
             if (testAssembly == null || testAssembly.Tests.Count == 1 && testAssembly.Tests[0] is SetUpFixture) {
                 // As of NUnit 3.8.0 the SetupFixture is not the root but the first and only test of the TestAssembly
 
-                SetUpFixture setUpFixture = testAssembly == null ? test as SetUpFixture : (SetUpFixture) testAssembly.Tests[0];
+                SetUpFixture setUpFixture = testAssembly == null ? test as SetUpFixture : (SetUpFixture)testAssembly.Tests[0];
 
                 if (setUpFixture == null) {
                     throw new TestOrderingException($"Expected condition: input object {test} is not a {typeof(TestAssembly).FullName} nor a {typeof(SetUpFixture).FullName}");
@@ -57,7 +57,8 @@ namespace NUnitTestOrdering.FixtureOrdering {
                 SetUpFixtureValidator.ValidateGlobalSetUpFixture(setUpFixture);
 
                 Trace.WriteLine("Note: Test assembly is using a SetUpFixture. Assuming SetUpFixture type is the test assembly.");
-            } else {
+            }
+            else {
                 assembly = testAssembly.Assembly;
             }
 

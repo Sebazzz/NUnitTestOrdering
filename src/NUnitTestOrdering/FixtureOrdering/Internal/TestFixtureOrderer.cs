@@ -108,7 +108,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
         }
     }
 
-    
+
 
     internal class TestFixtureOrderer {
         private readonly Assembly _testAssembly;
@@ -127,7 +127,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
             this._testHierarchyContext = new TestHierarchyContext(new TestRepository(rootFixture));
             this._orderedTestSpecificationFixtures = new List<OrderedTestSpecificationFixture>();
         }
-        
+
 
         public void OrderTests() {
             this.InitializeTestOrderingSpecs();

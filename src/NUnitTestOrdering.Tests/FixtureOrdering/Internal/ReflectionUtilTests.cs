@@ -38,7 +38,7 @@ namespace NUnitTestOrdering.Tests.FixtureOrdering.Internal {
             // Then
             var result = testFixture.Tests.Select(x => x.Name);
 
-            Assert.That(result, Is.EqualTo(new[] { "FirstTest", "SecondTest", "ThirdTest", "FourthTest"}));
+            Assert.That(result, Is.EqualTo(new[] { "FirstTest", "SecondTest", "ThirdTest", "FourthTest" }));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace NUnitTestOrdering.Tests.FixtureOrdering.Internal {
 
 
         private sealed class FakeTest : Test {
-            public FakeTest(string name) : base(name) {}
+            public FakeTest(string name) : base(name) { }
 
             public FakeTest(string name, int order) : base(name) {
                 this.Properties.Set(PropertyNames.Order, order);

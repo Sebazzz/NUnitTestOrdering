@@ -13,7 +13,7 @@ namespace NUnitTestOrdering.Tests.TestData {
     using System.Text;
 
     using NUnit.Framework;
-    
+
     /// <summary>
     /// Helper class for logging. Note we explicitly _dont_  use one of the initializer attributes here,
     /// as we don't want to influence how NUnit runs the tests
@@ -37,7 +37,8 @@ namespace NUnitTestOrdering.Tests.TestData {
                 this._logWriter = new StringWriter();
 
                 TestContext.Out.WriteLine("Pipe name was not provided! Tests may fail!");
-            } else {
+            }
+            else {
                 this._namedPipe = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
                 this._namedPipe.Connect();
 

@@ -20,7 +20,8 @@ namespace NUnitTestOrdering.MethodOrdering.Internal {
 
                 if (testFixture != null) {
                     DoOrderTestMethods(testFixture);
-                } else {
+                }
+                else {
                     DoOrderTestMethodsRecursive(test);
                 }
             }
@@ -31,10 +32,10 @@ namespace NUnitTestOrdering.MethodOrdering.Internal {
                 return;
             }
 
-            Type testOrdererType = (Type) testFixture.Properties.Get(InternalPropertyNames.MethodOrdererType);
+            Type testOrdererType = (Type)testFixture.Properties.Get(InternalPropertyNames.MethodOrdererType);
 
             try {
-                TestOrderer testOrderer = (TestOrderer) Activator.CreateInstance(testOrdererType);
+                TestOrderer testOrderer = (TestOrderer)Activator.CreateInstance(testOrdererType);
 
                 testOrderer.ApplyOrdering(testFixture);
             }

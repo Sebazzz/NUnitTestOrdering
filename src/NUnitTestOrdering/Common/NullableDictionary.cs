@@ -73,7 +73,7 @@ namespace NUnitTestOrdering.Common {
 
         public ICollection<TValue> Values => this._innerStore.Values;
         IEnumerator IEnumerable.GetEnumerator() {
-            return ((IEnumerable) this._innerStore).GetEnumerator();
+            return ((IEnumerable)this._innerStore).GetEnumerator();
         }
     }
 }

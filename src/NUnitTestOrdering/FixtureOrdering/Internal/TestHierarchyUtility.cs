@@ -12,7 +12,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
         public static void RemoveEmptyNodes(Test root) {
             int index = 0;
             while (index < root.Tests.Count) {
-                Test current = (Test) root.Tests[index];
+                Test current = (Test)root.Tests[index];
 
                 if (current is TestFixture) {
                     // skip
@@ -24,7 +24,8 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
 
                 if (!current.HasChildren) {
                     root.Tests.RemoveAt(index);
-                } else {
+                }
+                else {
                     index++;
                 }
             }

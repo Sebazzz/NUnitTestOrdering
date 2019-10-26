@@ -33,12 +33,12 @@ namespace NUnitTestOrdering.Tests.Support {
         public TestStatus GetTestResult(string test) {
             XElement testElement = this.GetTestElement(test);
 
-            string resultString = (string) testElement.Attribute("result");
+            string resultString = (string)testElement.Attribute("result");
             if (resultString == null) {
                 Assert.Fail("Unable to find result attribute for test {1} in node: {0}", testElement, test);
             }
 
-            return (TestStatus) Enum.Parse(typeof(TestStatus), resultString);
+            return (TestStatus)Enum.Parse(typeof(TestStatus), resultString);
         }
 
         public string GetFailureMessage(string test) {
@@ -71,7 +71,8 @@ namespace NUnitTestOrdering.Tests.Support {
                 if (!isLastPart) {
                     xPathBuilder.Append($"test-suite[@name=\"{part}\"]");
                     xPathBuilder.Append("/");
-                } else {
+                }
+                else {
                     xPathBuilder.Append($"*[@name=\"{part}\"]");
                 }
             }

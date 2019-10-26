@@ -24,7 +24,7 @@
 
         public override bool Equals(object obj) {
             if (obj is null) return false;
-            return obj is TestWrapper && this.Equals((TestWrapper) obj);
+            return obj is TestWrapper && this.Equals((TestWrapper)obj);
         }
 
         public override int GetHashCode() {

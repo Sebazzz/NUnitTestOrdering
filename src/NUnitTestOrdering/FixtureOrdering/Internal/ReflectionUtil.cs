@@ -58,7 +58,8 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal {
 
             if (listClass != null) {
                 listClass.Sort(comparison);
-            } else {
+            }
+            else {
                 List<T> copy = new List<T>(list);
                 copy.Sort(comparison);
                 Copy(copy, 0, list, 0, list.Count);

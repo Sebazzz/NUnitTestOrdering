@@ -46,7 +46,7 @@ namespace NUnitTestOrdering.FixtureOrdering {
         /// </summary>
         /// <param name="name"></param>
         public TestFixtureConfigurator<T> TestMethod(string name) {
-            Debug.Assert(this.TestFixture!=null);
+            Debug.Assert(this.TestFixture != null);
 
             Test method = this.TestFixture.Tests.Cast<Test>().FirstOrDefault(x => x.Name == name);
             if (method == null) {
@@ -69,13 +69,13 @@ namespace NUnitTestOrdering.FixtureOrdering {
             }
         }
 
-        internal void Configure(TestFixture test) => ((ITestFixtureConfigurator) this).Configure(test);
+        internal void Configure(TestFixture test) => ((ITestFixtureConfigurator)this).Configure(test);
 
         void ITestFixtureConfigurator.Configure(TestFixture test) {
             Debug.Assert(this.TestFixture != null);
 
             // Remove redundant tests
-            foreach (ITest childTest in this.TestFixture.Tests.Where(x => (int) x.Properties.Get(PropertyNames.Order) == -1).ToList()) {
+            foreach (ITest childTest in this.TestFixture.Tests.Where(x => (int)x.Properties.Get(PropertyNames.Order) == -1).ToList()) {
                 this.TestFixture.Tests.Remove(childTest);
             }
         }
@@ -89,7 +89,8 @@ namespace NUnitTestOrdering.FixtureOrdering {
 
             try {
                 methodFinder.Visit(expression.Body);
-            } catch (TestOrderingException ex) {
+            }
+            catch (TestOrderingException ex) {
                 throw new TestOrderingException($"Unable to find method name in expression {expression}", ex);
             }
 

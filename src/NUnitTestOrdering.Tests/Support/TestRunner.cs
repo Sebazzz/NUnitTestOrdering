@@ -164,7 +164,7 @@ namespace NUnitTestOrdering.Tests.Support {
                     CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
                     ParameterizedThreadStart namedPipePump = o => {
-                        CancellationToken ct = (CancellationToken) o;
+                        CancellationToken ct = (CancellationToken)o;
 
                         Trace.WriteLine("Waiting for connection...");
 
@@ -174,7 +174,7 @@ namespace NUnitTestOrdering.Tests.Support {
                         catch (OperationCanceledException) {
                             return;
                         }
-                                                                 
+
                         Trace.WriteLine("Connected");
 
                         while (!ct.IsCancellationRequested)
@@ -194,7 +194,8 @@ namespace NUnitTestOrdering.Tests.Support {
 
                         if (this._startDebugger) {
                             process.WaitForExit();
-                        } else {
+                        }
+                        else {
                             process.WaitForExit(1000 * 10 /* Reasonable time in which a test should complete */);
                         }
 
@@ -290,7 +291,7 @@ namespace NUnitTestOrdering.Tests.Support {
             document.Add(
                 new XElement("configuration",
                     new XElement("runtime",
-                        new XElement(ns + "assemblyBinding", 
+                        new XElement(ns + "assemblyBinding",
                             new XElement(ns + "dependentAssembly",
                                 new XElement(ns + "assemblyIdentity",
                                     new XAttribute("name", nunitFrameworkAssembly.Name),
@@ -325,10 +326,10 @@ namespace NUnitTestOrdering.Tests.Support {
 
                 using (StreamReader sr = new StreamReader(resourceStream)) {
                     trees[index++] = CSharpSyntaxTree.ParseText(
-                        path:path,
+                        path: path,
                         text: sr.ReadToEnd(),
                         options: new CSharpParseOptions(LanguageVersion.CSharp6, DocumentationMode.None),
-                        encoding:Encoding.UTF8);
+                        encoding: Encoding.UTF8);
                 }
             }
 

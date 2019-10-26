@@ -14,12 +14,12 @@ namespace NUnitTestOrdering.Common {
     [Serializable]
     public class TestOrderingException : Exception {
         /// <inheritdoc />
-        public TestOrderingException() {}
+        public TestOrderingException() { }
         /// <inheritdoc />
-        public TestOrderingException(string message) : base(message) {}
+        public TestOrderingException(string message) : base(message) { }
         /// <inheritdoc />
-        public TestOrderingException(string message, Exception innerException) : base(message, innerException) {}
+        public TestOrderingException(string message, Exception innerException) : base(message, innerException) { }
         /// <inheritdoc />
-        protected TestOrderingException(SerializationInfo info, StreamingContext context) : base(info, context) {}
+        protected TestOrderingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }
