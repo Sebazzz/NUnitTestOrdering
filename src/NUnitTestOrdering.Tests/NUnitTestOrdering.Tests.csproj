@@ -1,241 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AAFFEF62-8644-4AA6-8E89-DABCAC6DB523}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NUnitTestOrdering.Tests</RootNamespace>
-    <AssemblyName>NUnitTestOrdering.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\build\Debug\net46\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>net472</TargetFramework>
+    <OutputPath>..\..\build\$(Configuration)</OutputPath>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\build\Release\net46\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Esent.Interop, Version=1.9.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ManagedEsent.1.9.4\lib\net40\Esent.Interop.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Common.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp.Workspaces, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.CSharp.Workspaces.2.1.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.Workspaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Elfie, Version=0.10.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Elfie.0.10.6\lib\net46\Microsoft.CodeAnalysis.Elfie.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.1.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.Workspaces.Desktop, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.CodeAnalysis.Workspaces.Common.2.1.0\lib\net46\Microsoft.CodeAnalysis.Workspaces.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.Composition.AttributedModel, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.AttributedModel.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Convention, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Convention.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Hosting, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Hosting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.Runtime, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Composition.TypedParts, Version=1.0.30.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Composition.1.0.30\lib\portable-net45+win8+wp8+wpa81\System.Composition.TypedParts.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.FileVersionInfo, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.FileVersionInfo.4.3.0\lib\net46\System.Diagnostics.FileVersionInfo.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.StackTrace, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.StackTrace.4.3.0\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Reflection.Metadata, Version=1.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Reflection.Metadata.1.4.2\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encoding.CodePages, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Text.Encoding.CodePages.4.3.0\lib\net46\System.Text.Encoding.CodePages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Thread, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Threading.Thread.4.3.0\lib\net46\System.Threading.Thread.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.XPath, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Xml.XPath.4.3.0\lib\net46\System.Xml.XPath.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.XPath.XDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Xml.XPath.XDocument.4.3.0\lib\net46\System.Xml.XPath.XDocument.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Choose>
-    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-      </ItemGroup>
-    </When>
-    <Otherwise />
-  </Choose>
-  <ItemGroup>
-    <Compile Include="Common\Support\FakeDependency.cs" />
-    <Compile Include="Common\DependencySorterTests.cs" />
-    <Compile Include="Common\DependencyValidatorTests.cs" />
-    <Compile Include="FixtureOrdering\Internal\ReflectionUtilTests.cs" />
-    <Compile Include="IntegrationTests\MethodOrdering.cs" />
-    <Compile Include="IntegrationTests\MultipleFixtureSupport.cs" />
-    <Compile Include="IntegrationTests\TestExecution.cs" />
-    <Compile Include="MethodOrdering\TestOrdererType.cs" />
-    <Compile Include="Support\NamedPipeStreamExtensions.cs" />
-    <Compile Include="Support\NUnitVersionEnumerator.cs" />
-    <Compile Include="Support\NUnitVersionTest.cs" />
-    <Compile Include="Support\TestCategory.cs" />
-    <Compile Include="Support\TestRunner.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Support\ResultsDocument.cs" />
-    <Compile Include="Support\StartDebugger.cs" />
-    <Compile Include="TestData\Common.cs" />
-    <Compile Include="TestData\MethodOrdering\Simple\Test.cs" />
-    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\AssemblyInfo.cs" />
-    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\Tests.cs" />
-    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\AssemblyInfo.cs" />
-    <Compile Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\Tests.cs" />
-    <Compile Include="TestData\MethodOrdering\UsingTestOrderer\AssemblyInfo.cs" />
-    <Compile Include="TestData\MethodOrdering\UsingTestOrderer\Tests.cs" />
-    <Compile Include="TestData\MultipleFixtureSupport\SameLevel\AssemblyInfo.cs" />
-    <Compile Include="TestData\MultipleFixtureSupport\SameLevel\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\MultipleFixtureSupport\Simple\AssemblyInfo.cs" />
-    <Compile Include="TestData\MultipleFixtureSupport\Simple\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\AssemblyInfo.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\AssemblyInfo.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\AssemblyInfo.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst_Child.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\DeepOrderedTestFixtureFirst.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\AssemblyInfo.cs" />
-    <Compile Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\AssemblyInfo.cs" />
-    <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\GlobalSetUpFixture.cs" />
-    <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\MyOrderedTest.cs" />
-    <Compile Include="TestData\SetupFixtureSupport\OneDeepHierarchy\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrderExclude\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrderExclude\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrder\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrder\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceOnly\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceOnly\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestDataIndex.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDataIndex.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\DeepOrderedTestFixtureFirst.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\DeepOrderedTestFixtureFirst_Child.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\DeepOrderedTestFixtureFirst.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\DeepOrderedTestFixtureFirst_Child.cs" />
-    <Compile Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\RootOrderedTestFixture.cs" />
-    <Compile Include="TestData\TestIntegrity\ActionAttributeRunsOnEverything\Test.cs" />
-    <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\AssemblyInfo.cs" />
-    <Compile Include="TestData\TestIntegrity\Single_WithActionAttribute\Test.cs" />
-    <Compile Include="TestData\TestIntegrity\Single\Test.cs" />
-    <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\NamespaceSetUpFixture.cs" />
-    <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\GlobalSetUpFixture.cs" />
-    <Compile Include="TestData\TestIntegrity\Single_WithSetupFixture\Test.cs" />
-    <Compile Include="TestData\TestIntegrity\Single_WithSetupTeardown\Test.cs" />
-    <Compile Include="TestData\TestIntegrity\OrderedWithOrderAttribute\Test.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
     <EmbeddedResource Include="Support\NUnitTestVersions\packages.config" />
   </ItemGroup>
+
   <ItemGroup>
     <EmbeddedResource Include="TestData\TestIntegrity\ActionAttributeRunsOnEverything\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithActionAttribute\ExpectedTestResult.txt" />
@@ -249,69 +23,33 @@
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_OnException_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MethodOrdering\UsingTestOrderer_DuplicateTest_MarksFixtureAsNotRunnable\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\MultipleFixtureSupport\SameLevel\ExpectedTestResult.txt" />
-    <Content Include="TestData\MultipleFixtureSupport\SameLevel\Readme.txt" />
-    <Content Include="TestData\MultipleFixtureSupport\Simple\Readme.txt" />
-    <Content Include="TestData\PlainFixtureOrdering\HierarchySetupTeardown\Readme.txt" />
-    <Content Include="TestData\PlainFixtureOrdering\OneDeepHierarchy\Readme.txt" />
-    <Content Include="TestData\PlainFixtureOrdering\NestedDeepHierarchy\Readme.txt" />
     <EmbeddedResource Include="TestData\SetupFixtureSupport\OneDeepHierarchy\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\ExpectedTestResult.txt" />
-    <Content Include="TestData\PlainFixtureOrdering\SpecifyTestMethodOrder\Readme.txt" />
-    <Content Include="TestData\SetupFixtureSupport\OneDeepHierarchy\Readme.txt" />
     <EmbeddedResource Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceOnly\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrder\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestCaseSourceAttributeSupport\TestCaseSourceWithMethodOrderExclude\ExpectedTestResult.txt" />
-    <Content Include="TestData\TestDataIndex.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TestDataIndex.generated.cs</LastGenOutput>
-    </Content>
     <EmbeddedResource Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\ExpectedTestResult.txt" />
-    <Content Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot_NestedCrash\Readme.txt" />
-    <Content Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsRun\Readme.txt" />
-    <Content Include="TestData\TestExecution\Fail_OneDeepHierarchy_OtherTestsSkipped\Readme.txt" />
     <EmbeddedResource Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\ExpectedTestResult.txt" />
-    <Content Include="TestData\TestExecution\Fail_NestedDeepHierarchy_OtherTestsRunInRoot\Readme.txt" />
-    <Content Include="TestData\TestIntegrity\Readme.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupFixture\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\Single_WithSetupTeardown\ExpectedTestResult.txt" />
     <EmbeddedResource Include="TestData\TestIntegrity\OrderedWithOrderAttribute\ExpectedTestResult.txt" />
   </ItemGroup>
+
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <ProjectReference Include="..\NUnitTestOrdering\NUnitTestOrdering.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+    <PackageReference Include="nunit" Version="3.7.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.3.1" />
+
+    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NUnitTestOrdering\NUnitTestOrdering.csproj">
-      <Project>{2b5d82d8-daa7-4d47-bd97-b70c5135eb1d}</Project>
-      <Name>NUnitTestOrdering</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Choose>
-    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-          <Private>False</Private>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="BeforeBuild">
+ 
+  <Target Name="FixTestCasesCompileItems" BeforeTargets="BeforeBuild;CompileDesignTime">
     <ItemGroup>
       <_TestCases Include="TestData\**\*.cs" />
       <_TestCaseSupport Include="TestData\TestDataIndex.generated.cs" />
@@ -324,11 +62,5 @@
       <EmbeddedResource Remove="@(_TestCaseSupport)" />
     </ItemGroup>
     <Message Importance="High" Text="Testcases being excluded from compilation: @(_TestCases)" />
-  </Target>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
 </Project>

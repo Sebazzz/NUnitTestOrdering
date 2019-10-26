@@ -1,4 +1,4 @@
-namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
+﻿namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
     using System;
     using System.Runtime.InteropServices;
 
@@ -23,7 +23,7 @@ namespace NUnitTestOrdering.FixtureOrdering.Internal.ExecutionTracking {
         }
 
         public override bool Equals(object obj) {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             return obj is TestWrapper && this.Equals((TestWrapper) obj);
         }
 

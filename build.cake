@@ -15,7 +15,7 @@ var buildDir = Directory("./build") + Directory(configuration);
 var assemblyInfoFile = Directory($"./src/{baseName}/Properties") + File("AssemblyInfo.cs");
 var dotCoverResultFile = buildDir + File("CoverageResults.dcvr");
 var nuspecPath = File($"./nuget/{baseName}.nuspec");
-var testResultsFile = buildDir + File("NUnitTestResults.xml");
+var testResultsFile = buildDir + File("NUnitTestResults.trx");
 var mainAssemblyVersion = (string) null;
 
 //////////////////////////////////////////////////////////////////////
@@ -48,49 +48,21 @@ Task("Restore-NuGet-Packages")
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() => {
-        MSBuild($"./{baseName}.sln", settings => 
-            settings.SetConfiguration(configuration)
-                    .UseToolVersion(MSBuildToolVersion.VS2015)
-                    .SetVerbosity(verbosity)
-                    );
+        DotNetCoreBuild($"./{baseName}.sln");
 });
 
 Task("Test")
     .IsDependentOn("Build")
 	.Description("Run all unit tests - under code coverage")
-    .Does((ctx) => {
-        //DotCoverCover(
-		//	tool => {
-				ctx.NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
-					NoHeader = true,
-					NoColor = false,
-					Verbose = true,
-					Results = testResultsFile,
-					Full = true,
-					ResultFormat = /*AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : */"nunit3"
-				});
-		//	},
-		//	dotCoverResultFile,
-		//	new DotCoverCoverSettings () 
-		//		.WithFilter($"+:{baseName}")
-		//		.WithFilter("-:*.Tests")
-		//		.WithAttributeFilter("-:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute")
-        //);
-});
+    .Does(() =>
+		DotNetCoreTest($"./{baseName}.sln", new DotNetCoreTestSettings {
+			ArgumentCustomization = (args) => args.AppendQuoted($"--logger:trx;LogFileName={testResultsFile}")
+												  .Append("--logger:\"console;verbosity=normal;noprogress=true\"")
+		}));
 
 Task("NuGet-Test")
-	.IsDependentOn("Rebuild")
-	.Description("Run all unit tests in preperation nupack")
-	.Does(() => {
-		NUnit3("./build/" + configuration + "/**/*.Tests.dll", new NUnit3Settings {
-			NoHeader = true,
-			NoColor = false,
-			Verbose = true,
-			Results = testResultsFile,
-			Full = true,
-			ResultFormat = /*AppVeyor.IsRunningOnAppVeyor ? "AppVeyor" : */"nunit3"
-		});
-});
+	.IsDependentOn("Test")
+	.Description("Run all unit tests in preperation nupack");
 
 Task("NuGet-Git-UpdateAssemblyInfo")
     .Does(() =>  {

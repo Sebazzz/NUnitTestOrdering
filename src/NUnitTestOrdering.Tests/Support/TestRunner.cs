@@ -24,7 +24,6 @@ namespace NUnitTestOrdering.Tests.Support {
     using NUnit.Framework.Interfaces;
     using NUnit.Framework.Internal;
 
-    using NUnitTestOrdering.FixtureOrdering;
     using NUnitTestOrdering.MethodOrdering;
 
     using TestData;
