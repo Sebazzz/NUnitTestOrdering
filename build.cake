@@ -48,7 +48,7 @@ Task("Restore-NuGet-Packages")
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() => {
-        DotNetCoreBuild($"./{baseName}.sln");
+        DotNetCoreBuild($"./{baseName}.sln", new DotNetCoreBuildSettings { Configuration = configuration } );
 });
 
 Task("Test")

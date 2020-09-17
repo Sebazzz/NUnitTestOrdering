@@ -6,10 +6,10 @@
 		<title>NUnit Test Ordering</title>
 		<authors>Sebastiaan Dammann</authors>
 		<owners>Sebastiaan Dammann</owners>
-		<copyright>Sebastiaan Dammann - Damsteen.nl 2016</copyright>
-		<licenseUrl>https://raw.githubusercontent.com/Sebazzz/NUnitTestOrdering/master/LICENSE</licenseUrl>
+		<copyright>Sebastiaan Dammann - Damsteen.nl 2020</copyright>
+		<license type="expression">MIT</license>
 		<projectUrl>https://github.com/Sebazzz/NUnitTestOrdering</projectUrl>
-		<iconUrl>https://raw.githubusercontent.com/Sebazzz/NUnitTestOrdering/master/nuget/NUnitTestOrdering.png</iconUrl>
+		<icon>NUnitTestOrdering.png</icon>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<description>Allows you to hierarchically order your entire (or part of) your NUnit test suite, support dependencies between tests and skipping tests if their dependencies fail. Ideal for complex integration tests.</description>
 		<tags>NUnit Order</tags>
@@ -20,13 +20,15 @@
 		
 		<dependencies>
 			<!-- Since we rely on some details on how NUnit functions, lets keep it limited to minor versions. -->
-			<dependency id="NUnit" version="[3.7, 3.10)" />
+			<dependency id="NUnit" version="[3.7, 3.12)" />
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="..\build\Release\net46\NUnitTestOrdering.*" target="lib\net46" exclude="**\NUnitTestOrdering.Tests.*" />
+		<file src="..\build\Release\net472\NUnitTestOrdering.*" target="lib\net472" exclude="**\NUnitTestOrdering.Tests.*" />
 		<file src="content\Properties\EnableTestOrdering.cs" target="content\Properties" />
 		<file src="..\README.md" target=""/>
+		<file src="NUnitTestOrdering.png" target=""/>
 	</files>
 
 </package>
